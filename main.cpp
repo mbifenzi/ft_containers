@@ -1,7 +1,8 @@
 #include "./Containers/Stack/Stack.hpp"
 
+
 int main()
 {
     
-    Stack<int> stack;
+    ft::stack<int> stack;
 }

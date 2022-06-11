@@ -6,8 +6,9 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
+ 
 
-# Make data base, printed on Wed Jun  8 17:21:07 2022
+# Make data base, printed on Sat Jun 11 20:17:56 2022
 
 # Variables
 
@@ -44,7 +45,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/my/lf1x08gs0gx1887dpbwtct4m0000gn/T/vscode-ipc-1521ff60-0466-46a4-aa4d-81247f92e492.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/my/lf1x08gs0gx1887dpbwtct4m0000gn/T/vscode-ipc-0d26996c-204a-4e08-8e45-0f19888c4262.sock
 # environment
 VSCODE_CWD = /
 # environment
@@ -84,7 +85,7 @@ VSCODE_CODE_CACHE_PATH = /Users/mbifenzi/Library/Application Support/Code/Cached
 # environment
 LOGNAME = mbifenzi
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 NVM_CD_FLAGS = -q
 # environment
@@ -172,13 +173,14 @@ VSCODE_PID = 61139
 
 # Directories
 
-# . (device 16777231, inode 9185789): 8 files, no impossibilities.
+# . (device 16777231, inode 9185789): 10 files, no impossibilities.
 
-# 8 files, no impossibilities in 1 directories.
+# 10 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 # No implicit rules.
+ 
 
 # Files
 
@@ -288,6 +290,6 @@ clean:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Wed Jun  8 17:21:07 2022
+# Finished Make data base on Sat Jun 11 20:17:56 2022
 
  

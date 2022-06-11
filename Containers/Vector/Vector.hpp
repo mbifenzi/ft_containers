@@ -23,6 +23,8 @@
 #include <algorithm>
 #include <memory>
 #include "../../utilities/enable_if.hpp"
+#include "../../iterator/iterator_traits.hpp"
+#include "../../iterator/iterator.hpp"
 
 namespace ft
 {
@@ -31,17 +33,17 @@ class vector
 {
     public:
         typedef	T	value_type;
-			typedef Allocator allocator_type;
-			typedef size_t	size_type;
-			typedef	ft::iterator_op<T> iterator;
-			typedef ft::reverse_iterator<iterator>	reverse_iterator;
-			typedef	ft::iterator_op<const value_type>			const_iterator;
-			typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
-			typedef typename	allocator_type::pointer	pointer;
-			typedef typename	allocator_type::const_pointer	const_pointer;
-			typedef typename	allocator_type::reference	reference;
-			typedef typename	allocator_type::const_reference const_reference;
-			typedef typename	std::ptrdiff_t							difference_type;
+		typedef Allocator allocator_type;
+		typedef size_t	size_type;
+		typedef	ft::iterator_op<T> iterator;
+		typedef ft::reverse_iterator<iterator>	reverse_iterator;
+		typedef	ft::iterator_op<const value_type>			const_iterator;
+		typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+		typedef typename	allocator_type::pointer	pointer;
+		typedef typename	allocator_type::const_pointer	const_pointer;
+		typedef typename	allocator_type::reference	reference;
+		typedef typename	allocator_type::const_reference const_reference;
+		typedef typename	std::ptrdiff_t							difference_type;
 
         vector(const allocator_type & alloc= allocator_type()) : _alloc(alloc)
 			{

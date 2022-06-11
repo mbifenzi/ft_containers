@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <iterator>
 #include <cassert>
+
 namespace ft
 {
     template<class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class  Reference = T&>
@@ -30,7 +31,7 @@ namespace ft
     };
     
     template<class T>
-    struct iterator_traits< T*>
+    class iterator_traits< T*>
     {
         typedef std::random_access_iterator_tag iterator_category;
         typedef T value_type;
@@ -40,7 +41,7 @@ namespace ft
     };
 
     template<class T>
-    struct iterator_traits<const T*>
+    class iterator_traits<const T*>
     {
         typedef std::random_access_iterator_tag iterator_category;
         typedef T value_type;
