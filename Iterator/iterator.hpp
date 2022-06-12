@@ -25,6 +25,10 @@ namespace ft
 			iterator_op(T * pointer){
 				_ptr = pointer;
 			};
+			T* base() const 
+            { 
+                return _ptr; 
+            }
 
 			iterator_op &operator=(const iterator_op &it) { _ptr = it._ptr; return *this; };
 
@@ -49,6 +53,7 @@ namespace ft
 			reference operator[](difference_type n) { return _ptr[n]; };
 			reference operator*() const { return *_ptr; };
 			pointer operator&() const { return _ptr; };
+
 			
     };
 };

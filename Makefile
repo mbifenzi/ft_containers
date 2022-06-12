@@ -1,4 +1,4 @@
-NAME = ./Container
+NAME = Container
 
 SRC =	main.cpp
 
