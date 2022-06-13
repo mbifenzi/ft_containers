@@ -202,7 +202,24 @@ class vector
 		}
 		void insert (iterator position, InputIterator first, InputIterator last)
 		{
-			
+			size_type n = last - first;
+			if (n > 0)
+			{
+				if (_size + n > _capacity)
+				{
+					_capacity = _size + n;
+					pointer new_data = _alloc.allocate(_capacity);
+					for (size_type i = 0; i < _size; i++)
+						_alloc.construct(&new_data[i], _data[i]);
+					_alloc.deallocate(_data, _capacity);
+					_data = new_data;
+				}
+				for (size_type i = _size; i > position - _data; i--)
+					_alloc.construct(&_data[i], _data[i - 1]);
+				for (size_type i = 0; i < n; i++)
+					_alloc.construct(&_data[position - _data + i], *(first + i));
+				_size += n;
+			}
 		}
 		void erase(iterator pos)
 		{
