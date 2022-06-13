@@ -32,7 +32,7 @@ template <class T, class Allocator = std::allocator<T> >
 class vector
 {
     public:
-        typedef	T	value_type;
+		typedef	T	value_type;
 		typedef Allocator allocator_type;
 		typedef size_t	size_type;
 		typedef	ft::iterator_op<value_type> iterator;
@@ -180,6 +180,30 @@ class vector
 			_alloc.construct(&_data[pos - _data], val);
 			_size++;
 		}
+		void insert(iterator position, size_type n , const value_type& val)
+		{
+			if (n > 0)
+			{
+				if (_size + n > _capacity)
+				{
+					_capacity = _size + n;
+					pointer new_data = _alloc.allocate(_capacity);
+					for (size_type i = 0; i < _size; i++)
+						_alloc.construct(&new_data[i], _data[i]);
+					_alloc.deallocate(_data, _capacity);
+					_data = new_data;
+				}
+				for (size_type i = _size; i > position - _data; i--)
+					_alloc.construct(&_data[i], _data[i - 1]);
+				for (size_type i = 0; i < n; i++)
+					_alloc.construct(&_data[position - _data + i], val);
+				_size += n;
+			}
+		}
+		void insert (iterator position, InputIterator first, InputIterator last)
+		{
+			
+		}
 		void erase(iterator pos)
 		{
 			for (size_type i = pos - _data; i < _size - 1; i++)
@@ -201,11 +225,6 @@ class vector
 			std::swap(_size, v._size);
 			std::swap(_capacity, v._capacity);
 		}
-
-
-
-
-
 
         ~vector ()
 		{

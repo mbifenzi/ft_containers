@@ -1,5 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/mbifenzi/Desktop/1337/ft_containers'
-c++ -Wall -Wextra -Werror -std=c++98 main.cpp -o ./Container -fsanitize=address -g
-make: Leaving directory `/Users/mbifenzi/Desktop/1337/ft_containers'
- 

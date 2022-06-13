@@ -21,6 +21,7 @@ namespace ft
             reverse_iterator(const reverse_iterator & to_copy) : _it(to_copy._it){}
             iterator_type base() const { return _it; }
             reverse_iterator &operator=(const reverse_iterator &it) { _it = it._it; return *this; }
+            
             reverse_iterator &operator++() { _it--; return *this; }
             reverse_iterator &operator--() { _it++; return *this; }
             reverse_iterator &operator+=(difference_type n) { _it -= n; return *this; }
@@ -32,9 +33,53 @@ namespace ft
             difference_type operator-(reverse_iterator const &it) { return it._it - _it; }
             pointer operator->() { return &*_it; }
             reference operator*() { return *(_it - 1); }
+            reference operator[](difference_type n) { return _it[-n]; }
             bool operator==(reverse_iterator const &it) { return _it == it._it; }
             bool operator!=(reverse_iterator const &it) { return _it != it._it; }
+            bool operator<(reverse_iterator const &it) { return _it > it._it; }
+            bool operator>(reverse_iterator const &it) { return _it < it._it; }
+            bool operator<=(reverse_iterator const &it) { return _it >= it._it; }
+            bool operator>=(reverse_iterator const &it) { return _it <= it._it; }
+
+
     };
+    template <typename Iterator>
+    bool operator==(reverse_iterator<Iterator> const &it1, reverse_iterator<Iterator> const &it2)
+    {
+        return it1.base() == it2.base();
+    }
+
+    template <typename Iterator>
+    bool operator!=(reverse_iterator<Iterator> const &it1, reverse_iterator<Iterator> const &it2)
+    {
+        return it1.base() != it2.base();
+    }
+
+    template <typename Iterator>
+    bool operator<(reverse_iterator<Iterator> const &it1, reverse_iterator<Iterator> const &it2)
+    {
+        return it1.base() > it2.base();
+    }
+
+    template <typename Iterator>
+    bool operator>(reverse_iterator<Iterator> const &it1, reverse_iterator<Iterator> const &it2)
+    {
+        return it1.base() < it2.base();
+    }
+
+    template <typename Iterator>
+    bool operator<=(reverse_iterator<Iterator> const &it1, reverse_iterator<Iterator> const &it2)
+    {
+        return it1.base() >= it2.base();
+    }
+
+    template <typename Iterator>
+    bool operator>=(reverse_iterator<Iterator> const &it1, reverse_iterator<Iterator> const &it2)
+    {
+        return it1.base() <= it2.base();
+    }
+
+
 
     
 
