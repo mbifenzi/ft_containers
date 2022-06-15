@@ -4,14 +4,11 @@
 int main()
 {
     
-    ft::vector<int> v;
-    // ft::vector<int> v2;
-    v.push_back(1);
-    v.push_back(11);
-    // std::cout << *v.end() << std::endl;
-    std::cout << *(v.end() - 1) << std::endl;
-    std::cout << *(v.end() - 2) << std::endl;
-    // if (it == it2)
-    //     std::cout << "it == it2" << std::endl;
-    // std::cout << v[1] - v[0] << std::endl;
+    std::vector<int> t;
+    t.push_back(1000);
+    t.push_back(2);
+    t.push_back(3);
+    std::cout << t.size() << std::endl;
+
+
 }
