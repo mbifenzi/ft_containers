@@ -19,7 +19,7 @@ namespace ft
 			
 			iterator_op(iterator_op const & to_copy) { _ptr = to_copy._ptr; };
 			iterator_op(T * pointer){ _ptr = pointer; };
-			iterator_op &operator=(const iterator_op &it) { _ptr = it._ptr; return *this; };
+			 
 			operator  iterator_op< const value_type>() const { return iterator_op< const value_type>(_ptr); };
 			iterator_op &operator++() { _ptr++; return *this; };
 			iterator_op &operator--() { _ptr--; return *this; };
