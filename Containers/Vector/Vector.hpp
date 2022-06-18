@@ -310,23 +310,40 @@ class vector
 
 		size_type max_size() const { return _alloc.max_size(); }
 
-		iterator erase(iterator pos)
+		iterator erase(iterator position)
 		{
-			for (size_type i = pos - _data; i < _size - 1; i++)
-				_alloc.construct(&_data[i], _data[i + 1]);
-			_alloc.destroy(&_data[_size - 1]);
+			size_t p = &position - _data;
+			for (size_t i = p; i < _size - 1; i++)
+				_alloc.construct(_data + i, _data[i + 1]);
+			_alloc.destroy(_data + _size - 1);
 			_size--;
-			return (_data + pos);
+			return iterator(_data + p);
 		}
 
 		iterator erase(iterator first, iterator last)
 		{
-			for (size_type i = first - _data; i < _size - (last - first); i++)
-				_alloc.construct(&_data[i], _data[i + (last - first)]);
-			for (size_type i = _size - (last - first); i < _size; i++)
-				_alloc.destroy(&_data[i]);
-			_size -= (last - first);
-			return (_data + last - first);
+			iterator ret = first;
+				size_type dist = std::distance(begin(), first);
+				if (last == end())
+				{
+					for (;first != last; first++, dist++)
+					{
+						_alloc.destroy(_data + dist);
+						_size--;
+					}
+				}
+				else
+				{
+					size_type i = 0;
+					for (; first != last; first++, dist++)
+					{
+						if ((last + i) < end())
+							std::swap(*first, *(last + i));
+						_alloc.destroy(_data + dist);
+						_size--;
+					}
+				}
+				return ret;
 		}
 
 		void swap(vector& v)
