@@ -3,10 +3,24 @@
 
 int main()
 {
-    std::vector<std::string> t(10, "fill constructor test");
-    // t.push_back(1000);
-    // t.push_back(2);
-    // t.insert(t.begin(), -1);
-    // t.erase(t.begin());
-    std::cout << *t.begin() << std::endl;
-}   
+    ft::vector<int> t;
+    ft::vector<int> v;
+    t.push_back(12);
+    t.push_back(343);
+    t.push_back(7);
+
+    ft::vector<int>::iterator it;
+    for(it = t.begin(); it != t.end(); it++)
+    {
+        std::cout << *it << std::endl;
+    }
+
+    std::sort(t.begin(), t.end());
+       for(it = t.begin(); it != t.end(); it++)
+    {
+        std::cout << *it << std::endl;
+    }
+    std::cout << *t.rbegin() << std::endl;
+
+    
+}
