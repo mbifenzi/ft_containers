@@ -236,7 +236,7 @@ class vector
 					_alloc.deallocate(_data, _capacity);
 					_data = new_data;
 				}
-				for (size_type i = _size; i > position - _data; i--)
+				for (difference_type i = _size; i > position - _data; i--)
 					_alloc.construct(&_data[i], _data[i - 1]);
 				for (size_type i = 0; i < n; i++)
 					_alloc.construct(&_data[position - _data + i], val);
@@ -259,7 +259,7 @@ class vector
 					_alloc.deallocate(_data, _capacity);
 					_data = new_data;
 				}
-				for (size_type i = _size; i > position - _data; i--)
+				for (difference_type i = _size; i > position - _data; i--)
 					_alloc.construct(&_data[i], _data[i - 1]);
 				for (size_type i = 0; i < n; i++)
 					_alloc.construct(&_data[position - _data + i], *(first + i));
@@ -351,6 +351,11 @@ class vector
 			std::swap(_data, v._data);
 			std::swap(_size, v._size);
 			std::swap(_capacity, v._capacity);
+		}
+
+		allocator_type get_allocator() const
+		{
+			return (this->_alloc);
 		}
 
         ~vector ()

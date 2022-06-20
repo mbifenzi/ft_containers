@@ -30,6 +30,8 @@ namespace ft
 			iterator_op operator+(difference_type n) { iterator_op tmp(*this); tmp._ptr += n; return tmp; };
 			iterator_op operator-(difference_type n) { iterator_op tmp(*this); tmp._ptr -= n; return tmp; };
 			difference_type operator-(iterator_op const &it) { return _ptr - it._ptr; };
+			difference_type operator+(iterator_op const &it) { return _ptr + it._ptr; };
+
 			pointer operator->() { return _ptr; };
 			bool operator==(iterator_op const &it) { return _ptr == it._ptr; };
 			bool operator!=(iterator_op const &it) { return _ptr != it._ptr; };
@@ -40,5 +42,9 @@ namespace ft
 			reference operator[](difference_type n) { return _ptr[n]; };
 			reference operator*() const { return *_ptr; };
 			pointer operator&() const { return _ptr; };
+		// operator iterator<const value_type>()
+        // {
+        //     return iterator<const value_type>(_ptr);
+        // }
     };
 };
