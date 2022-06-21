@@ -40,9 +40,13 @@ namespace ft
 				reverse_iterator tmp(_it + n);
 				return (tmp);
 			}
-            pointer operator->() { return &*_it; }
+            pointer operator->() { 
+                iterator_type tmp(_it);
+                --tmp;
+                return tmp.operator->(); 
+            }
             reference operator*() { return *(_it - 1); }
-            reference operator[](difference_type n) { return _it[-n]; }
+            reference operator[](difference_type n) { return _it[-n -1]; }
             bool operator==(reverse_iterator const &it) { return _it == it._it; }
             bool operator!=(reverse_iterator const &it) { return _it != it._it; }
             bool operator<(reverse_iterator const &it) { return _it > it._it; }

@@ -70,6 +70,8 @@
         "memory_resource": "cpp",
         "compare": "cpp",
         "concepts": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "iomanip": "cpp",
+        "numeric": "cpp"
     }
 }
