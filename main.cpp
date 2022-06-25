@@ -4,23 +4,15 @@
 int main()
 {
     ft::vector<int> t;
-    ft::vector<int> v;
     t.push_back(12);
     t.push_back(343);
     t.push_back(7);
+    t.push_back(8);
+    t.push_back(9);
 
-    ft::vector<int>::iterator it;
-    for(it = t.begin(); it != t.end(); it++)
-    {
-        std::cout << *it << std::endl;
-    }
-
-    std::sort(t.begin(), t.end());
-       for(it = t.begin(); it != t.end(); it++)
-    {
-        std::cout << *it << std::endl;
-    }
-    std::cout << *t.rbegin() << std::endl;
-
-    
+    ft::vector<int>::iterator it = t.begin() + 1;
+    int i = 2;
+    it += i;
+    std::cout << *it << std::endl;
+    it + 1;
 }
