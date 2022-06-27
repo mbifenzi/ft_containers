@@ -1,6 +1,4 @@
-#include <iostream>
-#include <cstddef>
-#include <vector>
+#include <bits/stdc++.h>
 
  
 // Driver Code
