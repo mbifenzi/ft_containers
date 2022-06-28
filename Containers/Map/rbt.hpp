@@ -1,6 +1,8 @@
 #pragma once
+
 #include <iostream>
 #include <cstdlib>
+
 #define BLACK 0
 #define RED   1
 
@@ -34,11 +36,11 @@ namespace ft
             ~Node() { }
 
             protected:
-                T*      _data;
-                int     _color;
-                pointer _Rchild;
-                pointer _Lchild;
-                pointer _Parent;
+                T		_data;
+                int		_color;
+                pointer	_Rchild;
+                pointer	_Lchild;
+                pointer	_Parent;
         };
         
     // RBT CLASS
@@ -46,36 +48,44 @@ namespace ft
     class rbt
     {
         public:
-            typedef          T                                  value_type;
+            typedef          T									value_type;
 			typedef typename Node<value_type>::pointer          pointer;
 			typedef typename Node<value_type>::const_pointer    const_pointer;
 			typedef typename Node<value_type>::size_type        size_type;
-    // 
+			typedef typename Allocator                          allocator_type;
+
+    //  
             
-            pointer new_node(const value_type& value){
+            explicit rbt(const Compare &c = Compare(), const Allocator &alloc = allocator_type()) : _comp(c), _alloc(alloc),  _size(0)
+            {
+            }
+            pointer new_node(const value_type& value)
+			{
                 pointer node = _node_alloc(1);
                 node->_data = _value_alloc(1);
                 _value_alloc.construct(node->_data, value);
                 return node;
             };
 
-            void    insert_node(const value_type& value){
-                pointer to_add = new_node(value);
-                pointer root = this->node;
+            void    insert_node(const value_type& value)
+			{
+				pointer to_add = new_node(value);
+				pointer root = this->_node;
                 pointer x = NULL;
 
-                while(root){
-                    x = root;
-                    if (_comp(to_add->_data,  root->_data))
-                        root = root->_Lchild;
+                while(root)
+				{
+            		x = root;
+					if (_comp(to_add->_data,  root->_data))
+						root = root->_Lchild;
                     else
                         root = root->_Rchild;
                 }
                 to_add->_Parent = x;
                 if (x == NULL)
                 {
-                    node = to_add;
-                    node->_color = Black;
+                    _node = to_add;
+                    _node->_color = Black;
                     return ;
                 }
                 if (_comp(to_add->_data,  x->_data))
@@ -83,15 +93,19 @@ namespace ft
                 else
                     x->_Rchild = to_add;
                 if (to_add->_color == RED && x->_color == RED)
-                    // fix unbalance
-            };
+                    fix_unbalanced(to_add->_data);
+            }
 
+            void fix_unbalanced(pointer to_add)
+            {
 
+            }
         private:
-            pointer node;
-            Compare _comp;
-            Allocator _value_alloc;
-            std::allocator< Node<value_type> > _node_alloc;
+            pointer                             _node;
+            Compare                             _comp;
+            Allocator                           _value_alloc;
+            std::allocator< Node<value_type> >  _node_alloc;
+            size_t                              _size;
             
     };
 }
