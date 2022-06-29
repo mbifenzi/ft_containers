@@ -42,19 +42,20 @@ namespace ft
 
 			biterator& operator++()
 			{
-				if (_node->_Rchild != NULL)
-				{
-					_node = _node->_Rchild;
-					while (_node->_Lchild != NULL)
-						_node = _node->_Lchild;
-				}
+				if (!_node && _root)
+					_node = _root->_left;
+				else if (_node->_right)
+					_node = _node->_right;
 				else
 				{
-					while (_node->_Parent != NULL && _node->_Parent->_Rchild == _node)
-						_node = _node->_Parent;
-					_node = _node->_Parent;
+					node_ptr parent = _node->_parent;
+					while (parent && _node == parent->_right)
+					{
+						_node = parent;
+						parent = parent->_parent;
+					}
+					_node = parent;
 				}
-				return(*this);
 			}
 
 			biterator operator++(int)
