@@ -12,8 +12,8 @@ namespace ft
     template<typename T>
     class Node
         {
-            typedef Node* pointer;
-            typedef const Node* const_pointer;
+            typedef Node<T*> pointer;
+            typedef const Node<T*> const_pointer;
             typedef size_t size_type;
             Node(): _color(RED), _Rchild(NULL), _Lchild(NULL), _Parent(NULL) {};
             Node(const& Node rhs)
