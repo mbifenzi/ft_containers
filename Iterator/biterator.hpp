@@ -20,21 +20,102 @@ namespace ft
 			node_ptr	_node;
 			node_ptr	_root;
 		public:
-		node_ptr max(node_ptr x)
-		{
-			node_ptr tmp = x;
-			while (tmp->right != 0)
-				tmp = tmp->right;
-			return tmp;
-		}
+			biterator() : _node(NULL), _root(NULL) {};
+			biterator(const biterator& rhs){*this = rhs;};
+			biterator(node_ptr node, node_ptr root) : _node(node), _root(root) {};
+			biterator& operator=(const biterator& rhs)
+			{
+				this->_node = rhs._node;
+				this->_root = rhs._root;
+				return(*this);
+			}
 
-		node_ptr min(node_ptr x)
-		{
-			node_ptr tmp = x;
-			while (tmp->right != 0)
-				tmp = tmp->right;
-			return tmp;
-		}
+			reference operator*() const
+			{
+				return(_node->_data);
+			}
+
+			pointer operator->() const
+			{
+				return(&(_node->_data));
+			}
+
+			biterator& operator++()
+			{
+				if (_node->_Rchild != NULL)
+				{
+					_node = _node->_Rchild;
+					while (_node->_Lchild != NULL)
+						_node = _node->_Lchild;
+				}
+				else
+				{
+					while (_node->_Parent != NULL && _node->_Parent->_Rchild == _node)
+						_node = _node->_Parent;
+					_node = _node->_Parent;
+				}
+				return(*this);
+			}
+
+			biterator operator++(int)
+			{
+				biterator tmp = *this;
+				++*this;
+				return(tmp);
+			}
+			
+			biterator& operator--()
+			{
+				if (_node->_Lchild != NULL)
+				{
+					_node = _node->_Lchild;
+					while (_node->_Rchild != NULL)
+						_node = _node->_Rchild;
+				}
+				else
+				{
+					while (_node->_Parent != NULL && _node->_Parent->_Lchild == _node)
+						_node = _node->_Parent;
+					_node = _node->_Parent;
+				}
+				return(*this);
+			}
+
+			biterator operator--(int)
+			{
+				biterator tmp = *this;
+				--*this;
+				return(tmp);
+			}
+
+			friend bool operator==(const biterator& rhs) const
+			{
+				return(_node == rhs._node);
+			}
+
+			friend bool operator!=(const biterator& rhs) const
+			{
+				return(_node != rhs._node);
+			}
+
+
+
+			virtual ~biterator(){};
+			node_ptr max(node_ptr x)
+			{
+				node_ptr tmp = x;
+				while (tmp->right != 0)
+					tmp = tmp->right;
+				return tmp;
+			}
+
+			node_ptr min(node_ptr x)
+			{
+				node_ptr tmp = x;
+				while (tmp->right != 0)
+					tmp = tmp->right;
+				return tmp;
+			}
 
 
 
