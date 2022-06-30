@@ -53,6 +53,7 @@ namespace ft
 			typedef typename Node<value_type>::const_pointer    const_pointer;
 			typedef typename Node<value_type>::size_type        size_type;
 			typedef typename Allocator                          allocator_type;
+            typedef typename iterator<T>     
 
     //  
             
@@ -98,8 +99,127 @@ namespace ft
 
             void fix_unbalanced(pointer to_add)
             {
-
+                pointer x = to_add;
+                pointer y = x->_Parent;
+                pointer z = y->_Parent;
+                if (z->_Lchild == y)
+                    z->_Lchild = x;
+                else
+                    z->_Rchild = x;
+                x->_Parent = z;
+                y->_Parent = x;
+                x->_Rchild = y;
+                y->_Lchild = NULL;
+                y->_color = BLACK;
+                x->_color = RED;
+                if (x->_Parent->_color == RED)
+                    fix_unbalanced(x->_data);
             }
+
+            void    erase_node(const value_type& value)
+            {
+                pointer root = this->_node;
+                pointer x = NULL;
+                pointer y = NULL;
+                pointer z = NULL;
+                while(root)
+                {
+                    x = root;
+                    if (_comp(value,  root->_data))
+                        root = root->_Lchild;
+                    else
+                        root = root->_Rchild;
+                }
+                if (x == NULL)
+                    return ;
+                y = x->_Lchild;
+                if (y == NULL)
+                    y = x->_Rchild;
+                if (y == NULL)
+                {
+                    if (x->_Parent == NULL)
+                        _node = NULL;
+                    else
+                    {
+                        if (x->_Parent->_Lchild == x)
+                            x->_Parent->_Lchild = NULL;
+                        else
+                            x->_Parent->_Rchild = NULL;
+                    }
+                    _node_alloc.destroy(x);
+                    _node_alloc.deallocate(x, 1);
+                    return ;
+                }
+                z = y;
+                while (z->_Lchild)
+                    z = z->_Lchild;
+                if (z->_Rchild)
+                {
+                    if (z->_Parent == x)
+                        x->_Rchild = z->_Rchild;
+                    else
+                    {
+                        z->_Parent->_Lchild = z->_Rchild;
+                        z->_Rchild->_Parent = z->_Parent;
+                    }
+                    z->_Rchild = NULL;
+                }
+                else
+                {
+                    if (z->_Parent == x)
+                        x->_Rchild = NULL;
+                    else
+                    {
+                        z->_Parent->_Lchild = NULL;
+                    }
+                }
+                if (x->_Parent == NULL)
+                    _node = y;
+                else
+                {
+                    if (x->_Parent->_Lchild == x)
+                        x->_Parent->_Lchild = y;
+                    else
+                        x->_Parent->_Rchild = y;
+                }
+                y->_Parent = x->_Parent;
+                _   node_alloc.destroy(x);
+                _node_alloc.deallocate(x, 1);
+                if (y->_color == BLACK)
+                    fix_unbalanced(y->_data);
+            }
+
+            void    clear()
+            {
+                pointer root = this->_node;
+                pointer x = NULL;
+                pointer y = NULL;
+                pointer z = NULL;
+                while(root)
+                {
+                    x = root;
+                    if (root->_Lchild)
+                        root = root->_Lchild;
+                    else
+                        root = root->_Rchild;
+                    _node_alloc.destroy(x);
+                    _node_alloc.deallocate(x, 1);
+                }
+                _node = NULL;
+            }
+
+            ~rbt()
+            {
+                clear();
+            }
+
+            protected:
+                Compare										_comp;
+                Allocator									_alloc;
+                pointer										_node;
+                size_type									_size;
+                allocator_type								_node_alloc;
+                allocator_type								_value_alloc;
         private:
             pointer                             _node;
             Compare                             _comp;

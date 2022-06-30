@@ -5,7 +5,7 @@
 
 namespace ft
 {
-    template <class Node, class T, class value_compare, class Alloc >
+    template <class Node, class T, class value_compare, class Allocator>
     class biterator
     {
 		public:
@@ -16,7 +16,7 @@ namespace ft
 			typedef typename std::bidirectional_iterator_tag	iterator_category;
 			typedef Biterator<const iterator_type, value_type, value_compare, Alloc > const_iterator;
 			typedef Node<T*>	node_ptr;
-		private:
+		protected:
 			node_ptr	_node;
 			node_ptr	_root;
 		public:
@@ -43,19 +43,20 @@ namespace ft
 			biterator& operator++()
 			{
 				if (!_node && _root)
-					_node = _root->_left;
-				else if (_node->_right)
-					_node = _node->_right;
+					_node = _min(_root)
+				else if (_node->Rchild)
+					_node = _min(_node->Rchild)
 				else
 				{
 					node_ptr parent = _node->_parent;
-					while (parent && _node == parent->_right)
+					while (parent && _node == parent->Rchild)
 					{
 						_node = parent;
 						parent = parent->_parent;
 					}
-					_node = parent;
+					// _node = parent;
 				}
+				return(*this);
 			}
 
 			biterator operator++(int)
@@ -67,17 +68,19 @@ namespace ft
 			
 			biterator& operator--()
 			{
-				if (_node->_Lchild != NULL)
-				{
-					_node = _node->_Lchild;
-					while (_node->_Rchild != NULL)
-						_node = _node->_Rchild;
-				}
+				if (!_node && _root)
+					_node = _max(_root);
+				else if (_node->Lchild)
+					_node = _max(_node->Lchild);
 				else
 				{
-					while (_node->_Parent != NULL && _node->_Parent->_Lchild == _node)
-						_node = _node->_Parent;
-					_node = _node->_Parent;
+					node_ptr parent = _node->_parent;
+					while (parent && _node == parent->Lchild)
+					{
+						_node = parent;
+						parent = parent->_parent;
+					}
+					_node = parent;
 				}
 				return(*this);
 			}
@@ -85,9 +88,13 @@ namespace ft
 			biterator operator--(int)
 			{
 				biterator tmp = *this;
-				--*this;
+				--(*this);
 				return(tmp);
 			}
+
+			node_ptr	base() const {	return(_node);	}
+
+			node_ptr	root() const {	return(_root);	}
 
 			friend bool operator==(const biterator& rhs) const
 			{
@@ -101,20 +108,21 @@ namespace ft
 
 
 
-			virtual ~biterator(){};
-			node_ptr max(node_ptr x)
+			virtual ~biterator(){std::cout << "Node T9awed" << std::endl;};
+
+			node_ptr _max(node_ptr x)
 			{
 				node_ptr tmp = x;
-				while (tmp->right != 0)
-					tmp = tmp->right;
+				while (tmp->Rchild != 0)
+					tmp = tmp->Rchild;
 				return tmp;
 			}
 
-			node_ptr min(node_ptr x)
+			node_ptr _min(node_ptr x)
 			{
 				node_ptr tmp = x;
-				while (tmp->right != 0)
-					tmp = tmp->right;
+				while (tmp->Lchild != 0)
+					tmp = tmp->Lchild;
 				return tmp;
 			}
 
