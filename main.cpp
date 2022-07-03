@@ -11,8 +11,8 @@ int main()
     i.push_back(4);
     i.push_back(5);
     i.push_back(6);
-    ft::vector<int>::iterator it;
-    it = i.end() - 2;
-    std::cout << *it << std::endl;
+    // ft::vector<int>::iterator it;
+    // it = i.end() - 2;
+    // std::cout << *it << std::endl;
 
 }

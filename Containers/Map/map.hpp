@@ -6,6 +6,8 @@
 #include "../../Utilities/pair.hpp"
 #include "../../Iterator/iterator_traits.hpp"
 #include "../../Iterator/iterator.hpp"
+#include "../../Iterator/biterator.hpp"
+#include "../../Iterator/reverse_iterator.hpp"
 #include <memory>
 #include <iterator>
 #include <stdexcept>
@@ -18,27 +20,34 @@ namespace ft
     {
 		
         public:
-            typedef Key     										key_type;
-            typedef T												mapped_type;
-            typedef Compare											key_compare;
-			typedef Alloc											allocator_type;
-			typedef typename ft::pair<const key_type,mapped_type>	value_type;
-			typedef typename allocator_type::reference				reference;
-			typedef typename allocator_type::const_reference		const_reference;
-			typedef typename allocator_type::pointer				pointer;
-			typedef typename allocator_type::const_pointer			const_pointer;
-			typedef typename Node<value_type>::node_ptr				node_ptr;
-			typedef typename Node<value_type>::node_ptr const		const_node_ptr;
 			class value_compare;
+            typedef Key     																						key_type;
+            typedef T																								mapped_type;
+            typedef Compare																							key_compare;
+			typedef Alloc																							allocator_type;
+			typedef typename ft::pair<const key_type,mapped_type>													value_type;
+			typedef typename allocator_type::reference																reference;
+			typedef typename allocator_type::const_reference														const_reference;
+			typedef typename allocator_type::pointer																pointer;
+			typedef typename allocator_type::const_pointer															const_pointer;
+			typedef typename Node<value_type>::node_ptr																node_ptr;
+			typedef typename Node<value_type>::node_ptr const														const_node_ptr;
+			typedef typename biterator<node_ptr, value_type, value_compare, allocator_type> 						iterator;
+			typedef typename biterator<node_ptr, value_type, value_compare, allocator_type> 						const_iterator;
+			typedef ft::reverse_iterator<iterator> 																	reverse_iterator;
+			typedef ft::reverse_iterator<iterator> 																	const_iterator; 
+
+			// ----------------------------------------------------------------
 			typedef value_compare value_compare;
 			typedef typename ft::rbt<value_type, value_compare>
-            typedef size_t			                                size_type;
+            typedef size_t			     	                           size_type;
             typedef iterator_traits<iterator>::difference_type		difference_type;
 			
             class value_compare
 			{
 				protected:
 					key_compare _comp;
+					value_compare(key_compare comp) : _comp(comp) {}
 				public:
 					typedef bool result_type;
 					typedef value_type first_argument_type;

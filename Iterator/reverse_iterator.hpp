@@ -18,10 +18,13 @@ namespace ft
             typedef typename iterator_type::iterator_category iterator_category;
             reverse_iterator(){};
             explicit reverse_iterator (iterator_type it):_it(it){}
-            reverse_iterator(const reverse_iterator & to_copy) : _it(to_copy._it){}
+            // reverse_iterator(const reverse_iterator & rhs) : _it(rhs._it){}
+            reverse_iterator(const reverse_iterator<iterator_type>& _it){ this->operator=(_it);};
+
             iterator_type base() const { return _it; }
-            reverse_iterator &operator=(const reverse_iterator &it) { _it = it._it; return *this; }
-            
+
+            template <class Iter>
+            reverse_iterator &operator=(const reverse_iterator<Iter> &it) { _it = it.base(); return *this; }            
             reverse_iterator &operator++() { _it--; return *this; }
             reverse_iterator &operator--() { _it++; return *this; }
             reverse_iterator &operator+=(difference_type n) { _it -= n; return *this; }
@@ -54,6 +57,9 @@ namespace ft
             bool operator<=(reverse_iterator const &it) { return _it >= it._it; }
             bool operator>=(reverse_iterator const &it) { return _it <= it._it; }
 
+            operator	reverse_iterator<const iterator_type>() const{
+			    return reverse_iterator<const iterator_type>(_it);
+	        }
 
     };
     template <typename Iterator>
@@ -104,6 +110,8 @@ namespace ft
 	{
 		return (rhs.base() - lhs.base());
 	}
+
+    
     
 
 }

@@ -54,7 +54,7 @@ namespace ft
 						_node = parent;
 						parent = parent->_parent;
 					}
-					// _node = parent;
+					_node = parent;
 				}
 				return(*this);
 			}

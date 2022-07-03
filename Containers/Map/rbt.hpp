@@ -36,7 +36,7 @@ namespace ft
             ~Node() { }
 
             protected:
-                T		_data;
+                T		 ;
                 int		_color;
                 pointer	_Rchild;
                 pointer	_Lchild;
@@ -53,9 +53,9 @@ namespace ft
 			typedef typename Node<value_type>::const_pointer    const_pointer;
 			typedef typename Node<value_type>::size_type        size_type;
 			typedef typename Allocator                          allocator_type;
-            typedef typename iterator<T>     
+            typedef typename iterator<T>                        
 
-    //  
+    //  ----------------------------------------------------------------
             
             explicit rbt(const Compare &c = Compare(), const Allocator &alloc = allocator_type()) : _comp(c), _alloc(alloc),  _size(0)
             {
@@ -93,7 +93,7 @@ namespace ft
                     x->_Lchild = to_add;
                 else
                     x->_Rchild = to_add;
-                if (to_add->_color == RED && x->_color == RED)
+                if (to_add->_color == RED && x->_color == RED) 
                     fix_unbalanced(to_add->_data);
             }
 
@@ -102,7 +102,7 @@ namespace ft
                 pointer x = to_add;
                 pointer y = x->_Parent;
                 pointer z = y->_Parent;
-                if (z->_Lchild == y)
+                if (z->_Lchild == y )
                     z->_Lchild = x;
                 else
                     z->_Rchild = x;
@@ -189,6 +189,8 @@ namespace ft
                     fix_unbalanced(y->_data);
             }
 
+
+
             void    clear()
             {
                 pointer root = this->_node;
@@ -208,25 +210,42 @@ namespace ft
                 _node = NULL;
             }
 
+            void    print_tree()
+            {
+                pointer root = this->_node;
+                pointer x = NULL;
+                pointer y = NULL;
+                pointer z = NULL;
+                while(root)
+                {
+                    x = root;
+                    if (root->_Lchild)
+                        root = root->_Lchild;
+                    else
+                        root = root->_Rchild;
+                    std::cout << x->_data << " ";
+                }
+                std::cout << std::endl;
+            }
+
             ~rbt()
             {
                 clear();
             }
 
-            protected:
-                Compare										_comp;
-                Allocator									_alloc;
-                pointer										_node;
-                size_type									_size;
-                allocator_type								_node_alloc;
-                allocator_type								_value_alloc;
-        private:
-            pointer                             _node;
-            Compare                             _comp;
-            Allocator                           _value_alloc;
-            std::allocator< Node<value_type> >  _node_alloc;
-            size_t                              _size;
+        protected:
+            Compare										_comp;
+            Allocator									_alloc;
+            pointer										_node;
+            size_type									_size;
+            allocator_type								_node_alloc;
+            allocator_type								_value_alloc;
+        // private:
+        //     pointer                             _node;
+        //     Compare                             _comp;
+        //     Allocator                           _value_alloc;
+        //     std::allocator< Node<value_type> >  _node_alloc;
+        //     size_t                              _size;
             
     };
 }
-

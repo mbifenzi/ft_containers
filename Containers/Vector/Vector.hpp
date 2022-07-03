@@ -39,14 +39,14 @@ class vector
 		typedef	T												value_type;
 		typedef Allocator 										allocator_type;
 		typedef size_t											size_type;
-		typedef	ft::iterator_op<value_type> 					iterator;
-		typedef std::reverse_iterator<iterator>					reverse_iterator;
-		typedef	ft::iterator_op<const value_type>				const_iterator;
-		typedef std::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef typename	allocator_type::pointer				pointer;
 		typedef typename	allocator_type::const_pointer		const_pointer;
 		typedef typename	allocator_type::reference			reference;
 		typedef typename	allocator_type::const_reference 	const_reference;
+		typedef	ft::iterator_op<value_type> 					iterator;
+		typedef	ft::iterator_op<const value_type>				const_iterator;
+		typedef ft::reverse_iterator<iterator>					reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 		typedef typename	std::ptrdiff_t						difference_type;
 
 		explicit vector(const allocator_type & alloc = allocator_type()) : _alloc(alloc)
