@@ -11,36 +11,35 @@ namespace ft
     // Node CLASS
     template<typename T>
     class Node
+    {
+        public:
+        typedef Node<T*> pointer;
+        typedef const Node<T*> const_pointer;
+        typedef size_t size_type;
+        Node(): _color(RED), _Rchild(NULL), _Lchild(NULL), _Parent(NULL) {};
+        Node(const& Node rhs)
         {
-            typedef Node<T*> pointer;
-            typedef const Node<T*> const_pointer;
-            typedef size_t size_type;
-            Node(): _color(RED), _Rchild(NULL), _Lchild(NULL), _Parent(NULL) {};
-            Node(const& Node rhs)
-            {
-                this->_data = rhs._data;
-                this->_color = rhs._color;
-                this->_Rchild = rhs._Rchild;
-                this->_Lchild = rhs._Lchild;
-                this->_Parent = rhs._Parent;
-            }
-            Node &operator=(Node const &rhs)
-            {
-                this->_data = rhs._data;
-                this->_color = rhs._color;
-                this->_Rchild = rhs._Rchild;
-                this->_Lchild = rhs._Lchild;
-                this->_Parent = rhs._Parent;
-                return(*this);
-            }
-            ~Node() { }
-
-            protected:
-                T		 ;
-                int		_color;
-                pointer	_Rchild;
-                pointer	_Lchild;
-                pointer	_Parent;
+            this->_data = rhs._data;
+            this->_color = rhs._color;
+            this->_Rchild = rhs._Rchild;
+            this->_Lchild = rhs._Lchild;
+            this->_Parent = rhs._Parent;
+        }
+        Node &operator=(Node const &rhs)
+        {
+            this->_data = rhs._data;
+            this->_color = rhs._color;
+            this->_Rchild = rhs._Rchild;
+            this->_Lchild = rhs._Lchild;
+            this->_Parent = rhs._Parent;
+            return(*this);
+        }
+        ~Node() { }
+        T		_data;
+        int		_color;
+        pointer	_Rchild;
+        pointer	_Lchild;
+        pointer	_Parent;
         };
         
     // RBT CLASS

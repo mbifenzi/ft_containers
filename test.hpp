@@ -1,6 +1,11 @@
 #pragma once
 
 #include <iostream>
+#include <map>
+#include <string>
+#include <cstdlib>
+#include <memory>
+
 
 #define BLACK 0
 #define RED   1
@@ -8,18 +13,25 @@
 template <typename T>
 class Node 
 {
-    protected :
-        T _data;
+    public:
+        typedef Node<T>* pointer;
+
+        T* _data;
         int _color;
-        Node *_Rchild;
-        Node *_Lchild;
-        Node *_Parent;
-    public :
-        typedef Node<T*> pointer;
+        pointer _Rchild;
+        pointer _Lchild;
+        pointer  _Parent;
+        std::allocator<T> _allocator;
         typedef const Node<T*> const_pointer;
         typedef size_t size_type;
-        Node(): _color(RED), _Rchild(NULL), _Lchild(NULL), _Parent(NULL) {};
-        Node(const& Node<T*> rhs)
+
+        Node(): _color(RED), _Rchild(NULL), _Lchild(NULL), _Parent(NULL)
+        {
+            _data = _allocator.allocate(1);
+            _allocator.construct(_data, T());
+
+        };
+        Node(const Node& rhs)
         {
             this->_data = rhs._data;
             this->_color = rhs._color;
@@ -27,9 +39,9 @@ class Node
             this->_Lchild = rhs._Lchild;
             this->_Parent = rhs._Parent;
         }
-        Node &operator=(Node<T*> const &rhs)
+        Node &operator=(const Node &rhs)
         {
-            this->_data = rhs->_data;
+            this->_data = rhs._data;
             this->_color = rhs._color;
             this->_Rchild = rhs._Rchild;
             this->_Lchild = rhs._Lchild;
@@ -39,29 +51,29 @@ class Node
         ~Node() { }
 };
 
-template <typename T>
+template <typename T, class allocator = std::allocator<T> >
 class Test
 {
     public :
+        typedef Node<T>* pointer;
+        typedef allocator                   allocator_type;
         Test() { }
         ~Test() { }
-        void new_node() 
+        pointer new_node()
         {
-            Node<int> *node = new Node<int>(1);
-            node->_data = 1;
-            node->_color = RED;
-            node->_Rchild = NULL;
-            node->_Lchild = NULL;
-            node->_Parent = NULL;
-            delete node;
+            std::cout << "new_node" << std::endl;
+            Node<int>* node = _node_alloc.allocate(1);
+            return node;
         }
         void edit()
         {
-            node<int> *node = new Node<int>();
-            node->_data = 1;
-            node<int> *node2 = node;
-            // delete node;
-            node2->_color = BLACK;
+            Node<int>* node = new_node();
+            Node<int>* node2 = node;
+            node2 = node2->_Rchild;
+            std::cout << "edit" << std::endl;
+            std::cout << "node->_Rchild" << node->_Rchild->_color << std::endl;
         }
+        private:
+            typename allocator::template rebind<Node<T> >::other _node_alloc;
+            allocator_type _value_alloc;
 };
-

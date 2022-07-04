@@ -7,9 +7,9 @@
 // Driver Code
 int main()
 {
-    std::cout << "debug" << std::endl;
     Test<int> test;
-    test.new_node();
+    // test.new_node();
+    std::cout << "debug" << std::endl;
     test.edit();
     return 0;
 }
