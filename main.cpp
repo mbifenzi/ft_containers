@@ -1,18 +1,17 @@
 #include "./Containers/Stack/Stack.hpp"
 #include "./Containers/Vector/Vector.hpp"
-// #include "./Containers/Map/rbt.hpp"
+#include "./Containers/Map/map.hpp"
+// #include <map>
 
 int main()
 {
-    ft::vector<int> i;
-    i.push_back(1);
-    i.push_back(2);
-    i.push_back(3);
-    i.push_back(4);
-    i.push_back(5);
-    i.push_back(6);
-    // ft::vector<int>::iterator it;
-    // it = i.end() - 2;
+    ft::map<int,int> m;
+    m.insert(ft::make_pair(1,1));
+    m.insert(ft::make_pair(2,2));
+    // std::map<int,int> m;
+    std::cout << " ====== "<< m[1] << std::endl;
+    return(0);
+
     // std::cout << *it << std::endl;
 
 }

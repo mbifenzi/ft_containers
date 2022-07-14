@@ -2,12 +2,14 @@ NAME = Container
 
 SRC =	main.cpp
 
+FLAGS = -std=c++98 -Wall -Wextra -Werror -pedantic -g
+
 all :	$(NAME)
 
 bonus : $(BONUS_NAME)
 
 $(NAME): $(SRC)
-		@c++ -Wall -Wextra -Werror -std=c++98 $(SRC) -o $(NAME) -fsanitize=address -g
+		@c++  $(SRC) -o $(NAME) -fsanitize=address -g
 
 clean:
 	@rm -f $(OBJECT)
