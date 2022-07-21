@@ -30,8 +30,8 @@ namespace ft
 			typedef typename allocator_type::const_pointer						const_pointer;
 			typedef typename allocator_type::difference_type					difference_type;
 			typedef Node<value_type>*											node_ptr;
-			// typedef typename ft::reverse_iterator<typename rbt<value_type, value_compare, Alloc>::iterator>			reverse_iterator;
-			// typedef typename ft::reverse_iterator<typename rbt<value_type, value_compare, Alloc>::const_iterator>	const_reverse_iterator;
+			typedef typename ft::reverse_iterator<typename rbt<value_type, value_compare, Alloc>::iterator>			reverse_iterator;
+			typedef typename ft::reverse_iterator<typename rbt<value_type, value_compare, Alloc>::const_iterator>	const_reverse_iterator;
 			typedef typename rbt<value_type, value_compare, Alloc>::iterator											iterator;
 			typedef typename rbt<value_type, value_compare, Alloc>::const_iterator										const_iterator;
 			// typedef typename rbt<value_type, value_compare, Alloc>::node_type											node_type;
@@ -44,8 +44,21 @@ namespace ft
 			// map() : _rbt() { }
 			explicit map(const key_compare &c = key_compare(), const Alloc &alloc = allocator_type()) : 
 				_comp(c), _alloc(alloc), _value_comp(c), _rbt(_value_comp, _alloc ) { }
+
 			map(const map &rhs) : _rbt(rhs._rbt), _alloc(rhs._alloc), _comp(rhs._comp) { }
+
 			map &operator=(const map &rhs) { _rbt = rhs._rbt; _alloc = rhs._alloc; _comp = rhs._comp; return(*this); }
+			
+			template <class InputIterator>
+            map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type(),
+                typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type = InputIterator()):
+                _comp(comp), _alloc(alloc), _rbt() {
+                _rbt.set_compare_alloc(value_compare(comp), alloc);
+                while (first != last){
+                    _rbt.insert(*first);
+                    first++;
+                }
+            };
 			~map() { _rbt.clear();}
 			mapped_type operator[](const key_type &key)
 			{
@@ -57,15 +70,15 @@ namespace ft
 				// std::cout << "inserted " << val.first << " " << val.second << std::endl;
 			};
 			
-					iterator begin() { return(_rbt.begin()); }
-					const_iterator begin() const { return(_rbt.begin()); }
-					// iterator end() { return(_rbt.end()); }
-					// const_iterator end() const { return(_rbt.end()); }
-					// reverse_iterator rbegin() { return(_rbt.rbegin()); }
-					// const_reverse_iterator rbegin() const { return(_rbt.rbegin()); }
-					// reverse_iterator rend() { return(_rbt.rend()); }
-					// const_reverse_iterator rend() const { return(_rbt.rend()); }
-					// bool empty() const { return(_rbt.empty()); }
+					iterator begin() { return(iterator(_rbt.min(), _rbt.root())); }
+					const_iterator begin() const { return(const_iterator(_rbt.min, _rbt.root())); }
+					iterator end() { return(iterator(_rbt.max()->_Rchild, _rbt.root())); }
+					const_iterator end() const { return(const_iterator(_rbt.max()->_Rchild, _rbt.root())); }
+					reverse_iterator rbegin() { return reverse_iterator(end()); }
+					const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+					reverse_iterator rend() { return reverse_iterator(begin()); }
+					const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
+					bool empty() const { return(_rbt.empty()); }
 					// size_type size() const { return(_rbt.size()); }
 					// size_type max_size() const { return(_rbt.max_size()); }
 					// void swap(map &rhs) { _rbt.swap(rhs._rbt); }

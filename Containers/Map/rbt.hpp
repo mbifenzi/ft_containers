@@ -56,11 +56,13 @@ namespace ft
  public :
         typedef Allocator                                   allocator_type;
         typedef T                                           value_type;
+        typedef size_t                                      size_type;
         typedef Node<value_type>*                           pointer;
         typedef Node<value_type>*                           const_pointer;
         typedef Compare                                     key_compare;
         typedef ft::biterator<Node<value_type>, value_type> iterator;
         typedef ft::biterator<Node<value_type>, value_type> const_iterator;
+        
 
     protected:
         key_compare                                             _comp;
@@ -290,6 +292,61 @@ namespace ft
                 destroy_node(node);
             };
 
+            pointer min(){
+                pointer node = _node;
+                if (!node)
+                    return NULL;
+                while (node->_Lchild)
+                    node = node->_Lchild;
+                return node;
+            };
+
+            pointer max(){
+                pointer node = _node;
+                if (!node)
+                    return NULL;
+                while (node->_Rchild)
+                    node = node->_Rchild;
+                return node;
+            };
+            pointer successor(pointer node){
+                if (!node)
+                    return NULL;
+                if (node->_Rchild)
+                    return min(node->_Rchild);
+                pointer parent = node->_Parent;
+                while (parent && parent->_Rchild == node)
+                {
+                    node = parent;
+                    parent = node->_Parent;
+                }
+                return parent;
+            };
+
+            pointer predecessor(pointer node){
+                if (!node)
+                    return NULL;
+                if (node->_Lchild)
+                    return max(node->_Lchild);
+                pointer parent = node->_Parent;
+                while (parent && parent->_Lchild == node)
+                {
+                    node = parent;
+                    parent = node->_Parent;
+                }
+                return parent;
+            };
+
+            pointer root()
+            {
+                return _node;
+            };
+
+            ~rbt()
+            {
+                clear();
+            }
+
             void    print_tree()
             {
                 pointer root = this->_node;
@@ -305,25 +362,24 @@ namespace ft
                         root = root->_Rchild;
                 }
             }
+            bool empty() const{return !_size;};
 
-            ~rbt()
+            size_type size() const{return _size;};
+
+            size_type max_size() const{return _size;};
+
+            size_type capacity() const{return _size;};
+
+            void reserve(size_type){};
+
+            void shrink_to_fit(){};
+            
+            void swap(rbt& other)
             {
-                clear();
-            }
-
-        // protected:
-        //     Compare										_comp;
-        //     Allocator									_alloc;
-        //     pointer										_node;
-        //     size_type									_size;
-        //     allocator_type								_node_alloc;
-        //     allocator_type								_value_alloc;
-        // private:
-        //     pointer                             _node;
-        //     Compare                             _comp;
-        //     Allocator                           _value_alloc;
-        //     std::allocator< Node<value_type> >  _node_alloc;
-        //     size_t                              _size;
+                std::swap(_node, other._node);
+                std::swap(_size, other._size);
+            };
+        
             
     };
 }

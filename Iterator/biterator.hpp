@@ -53,15 +53,15 @@ namespace ft
 			{
 				if (!_node && _root)
 					_node = _min(_root);
-				else if (_node->Rchild)
-					_node = _min(_node->Rchild);
+				else if (_node->_Rchild)
+					_node = _min(_node->_Rchild);
 				else
 				{
-					node_ptr parent = _node->_parent;
-					while (parent && _node == parent->Rchild)
+					node_ptr parent = _node->_Parent;
+					while (parent && _node == parent->_Rchild)
 					{
 						_node = parent;
-						parent = parent->_parent;
+						parent = parent->_Parent;
 					}
 					_node = parent;
 				}
@@ -79,15 +79,15 @@ namespace ft
 			{
 				if (!_node && _root)
 					_node = _max(_root);
-				else if (_node->Lchild)
-					_node = _max(_node->Lchild);
+				else if (_node->_Lchild)
+					_node = _max(_node->_Lchild);
 				else
 				{
-					node_ptr parent = _node->_parent;
-					while (parent && _node == parent->Lchild)
+					node_ptr parent = _node->_Parent;
+					while (parent && _node == parent->_Lchild)
 					{
 						_node = parent;
-						parent = parent->_parent;
+						parent = parent->_Parent;
 					}
 					_node = parent;
 				}
@@ -115,16 +115,16 @@ namespace ft
 			node_ptr _max(node_ptr x)
 			{
 				node_ptr tmp = x;
-				while (tmp->Rchild != 0)
-					tmp = tmp->Rchild;
+				while (tmp && tmp->_Rchild != 0)
+					tmp = tmp->_Rchild;
 				return tmp;
 			}
 
 			node_ptr _min(node_ptr x)
 			{
 				node_ptr tmp = x;
-				while (tmp->Lchild != 0)
-					tmp = tmp->Lchild;
+				while (tmp && tmp->_Lchild != 0)
+					tmp = tmp->_Lchild;
 				return tmp;
 			}
 
