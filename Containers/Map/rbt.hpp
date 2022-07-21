@@ -144,11 +144,8 @@ namespace ft
                 while(root)
 				{
             		x = root;
-					if (_comp.operator()(*to_add->_data,  *root->_data)){
-
-                // std::cout << "insert_node" << std::endl;
+					if (_comp.operator()(*to_add->_data,  *root->_data))
 						root = root->_Lchild;
-                    }
                     else
                         root = root->_Rchild;
                 }
@@ -163,30 +160,20 @@ namespace ft
                     x->_Lchild = to_add;
                 else
                     x->_Rchild = to_add;
-                // if (to_add->_color == RED && x->_color == RED) 
-                //     fix_unbalanced(to_add);
+                if (to_add->_color == RED && x->_color == RED) 
+                    fix_unbalanced(to_add);
                 _size++;
                 return(to_add);
             }
 
-            // void fix_unbalanced(pointer to_add)
-            // {
-            //     pointer x = to_add;
-            //     pointer y = x->_Parent;
-            //     pointer z = y->_Parent;
-            //     if (z->_Lchild == y )
-            //         z->_Lchild = x;
-            //     else
-            //         z->_Rchild = x;
-            //     x->_Parent = z;
-            //     y->_Parent = x;
-            //     x->_Rchild = y;
-            //     y->_Lchild = NULL;
-            //     y->_color = BLACK;
-            //     x->_color = RED;
-            //     if (x->_Parent->_color == RED)
-            //         fix_unbalanced(x->_data);
-            // }
+            void fix_unbalanced(pointer to_add)
+            {
+
+            }
+
+            
+
+
 
             void    erase_node(const value_type& value)
             {
@@ -292,7 +279,8 @@ namespace ft
                 destroy_node(node);
             };
 
-            pointer min(){
+            pointer min()
+            {
                 pointer node = _node;
                 if (!node)
                     return NULL;
@@ -301,7 +289,8 @@ namespace ft
                 return node;
             };
 
-            pointer max(){
+            pointer max()
+            {
                 pointer node = _node;
                 if (!node)
                     return NULL;
@@ -347,21 +336,33 @@ namespace ft
                 clear();
             }
 
-            void    print_tree()
+            void printTree()
             {
-                pointer root = this->_node;
-                pointer x = NULL;
-                pointer y = NULL;
-                pointer z = NULL;
-                while(root)
-                {
-                    x = root;
-                    if (root->_Lchild)
-                        root = root->_Lchild;
-                    else
-                        root = root->_Rchild;
-                }
+                if (_node)
+                    printHelper(this->_node, " ", true);
             }
+            void printHelper(pointer root, std::string indent, bool last)
+            {
+	        	// print the tree structure on the screen
+	           	if (root != NULL) {
+	        	   std::cout<<indent;
+	        	   if (last) {
+	        	      std::cout<<"R----";
+	        	      indent += "     ";
+	        	   } else {
+	        	      std::cout<<"L----";
+	        	      indent += "|    ";
+	        	   }
+
+                   std::string sColor = root->_color?"RED":"BLACK";
+                   std::string ROOT = (root == _node )? "root":" ";
+	        	   std::cout<<ROOT <<root->_data->first<<"("<<sColor<<")"<< std::endl;
+	        	   printHelper(root->_Lchild, indent, false);
+	        	   printHelper(root->_Rchild, indent, true);
+	        	}
+	        	// cout<<root->left->data<<endl;
+	        } 
+
             bool empty() const{return !_size;};
 
             size_type size() const{return _size;};

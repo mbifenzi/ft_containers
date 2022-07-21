@@ -84,6 +84,9 @@ namespace ft
 					// void swap(map &rhs) { _rbt.swap(rhs._rbt); }
 					// mapped_type &operator[](const key_type &key) { return(_rbt[key]); }
 					// mapped_type &at(const key_type &key) { return(_rbt.at(key)); }
+			void Print(){
+				_rbt.printTree();
+			}
 	};
 
 	template <class Key, class T, class Compare, class Alloc>
@@ -100,4 +103,5 @@ namespace ft
 				return(_comp(lhs.first, rhs.first));
 			}
 	};
+
 }
