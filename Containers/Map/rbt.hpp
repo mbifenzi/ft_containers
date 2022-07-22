@@ -28,6 +28,7 @@ namespace ft
         Node()
         {
         };
+
         Node(const Node& rhs)
         {
             this->_data = rhs._data;
@@ -86,7 +87,6 @@ namespace ft
             this->clear();
             _size = 0;
             this->clone(rhs);
-
         }
         pointer clone(const rbt &rhs)
         {
@@ -168,10 +168,90 @@ namespace ft
 
             void fix_unbalanced(pointer to_add)
             {
+                pointer Gparent = NULL;
+                pointer parent = NULL;
+                pointer uncle = NULL;
 
+                while (to_add != _node && to_add->_color != BLACK && to_add->parent->_color == RED)
+                {
+                    parent = to_add->parent;
+                    Gparent = parent->_Parent;
+                    if (Gparent)
+                    {
+                        uncle = (Gparent->_Lchild == parent) ? Gparent->_Rchild : Gparent->_Lchild;
+                        if (uncle && uncle->_color == RED)
+                        {
+                            parent->_color = BLACK;
+                            unclue->_color = BLACK;
+                            Gparent->_color = RED;
+                            to_add = Gparent;
+                        }
+                        else
+                        {
+                            if (uncle == Gparent->__Rchild)
+                            {
+                                if (to_add == Gparent->Rchild)
+                                {
+                                    leftRotate(parent);
+                                    to_add = parent;
+                                    parent = to_add->_Parent;
+                                }
+                                rightRotate(Gparent);
+                                std::swap(parent->_color, Gparent->_color);
+                                to_add = parent;
+                            }
+                            else
+                            {
+                                if (to_add == parent->Lchild)
+                                {
+                                    rightRotate(parent);
+                                    to_add = parent;
+                                    parent = to_add->parent;
+                                }
+                                leftRotate(Gparent);
+                                std::swap(parent->_color, Gparent->_color);
+                                to_add = parent;
+                            }
+                        }
+                    }
+                }
+                _node->_color = BLACK;
             }
 
-            
+            void leftRotate(pointer to_add)
+            {
+                pointer y = to_add->_Rchild;
+                to_add->_Rchild = y->_Lchild;
+                if (to_add != NULL)
+                    y->_Rchild->_Parent = to_add;
+                y->_Parent = = to_add->_parent;
+                if (to_add->_Parent == NULL)
+                    _node = y;
+                else if (to_add == to_add->_parent->_Lchild)
+                    to_add->_parent->_Lchild = y;
+                else
+                    to_add->_Parent = y;
+                y->_Lchild = to_add;
+                to_add->_Parent = y;
+            }
+
+            void rightRotate(pointer to_add)
+            {
+                pointer y = to_add->_Lchild;
+                to_add->_Lchild = y->_Rchild;
+                if (to_add->_Lchild != NULL)
+                    to_add->_Lchild->_Parent = to_add;
+                y->_Parent = to_add->_Parent;
+                if (to_add->_Parent == NULL)
+                    _node = y;
+                else if (to_add == to_add->_Parent->_Rchild)
+                    to_add->_parent->_Rchild = y;
+                else
+                    to_add->_Parent->_Lchild = y;
+                y->_Rchild = to_add;
+                to_add->_Parent = y;
+            }
+
 
 
 
