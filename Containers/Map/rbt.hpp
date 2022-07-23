@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include "../../Utilities/pair.hpp"
 #include "../../Iterator/biterator.hpp"
+#include "../../Utilities/fancy_tree.hpp"
 
 #define BLACK 0
 #define RED   1
@@ -256,9 +257,6 @@ namespace ft
                 to_add->_Parent = y;
             }
 
-
-
-
             void    erase_node(const value_type& value)
             {
                 pointer root = this->_node;
@@ -425,6 +423,9 @@ namespace ft
                 if (_node)
                     printHelper(this->_node, " ", true);
             }
+
+            void Vprinter()
+
             void printHelper(pointer root, std::string indent, bool last)
             {
 	        	// print the tree structure on the screen

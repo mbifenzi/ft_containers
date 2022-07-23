@@ -87,6 +87,9 @@ namespace ft
 			void Print(){
 				_rbt.printTree();
 			}
+			void Vprint(){
+				_rbt.vprintTree();
+			}
 	};
 
 	template <class Key, class T, class Compare, class Alloc>
