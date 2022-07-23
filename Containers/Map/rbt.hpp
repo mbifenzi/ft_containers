@@ -172,9 +172,10 @@ namespace ft
                 pointer parent = NULL;
                 pointer uncle = NULL;
 
-                while (to_add != _node && to_add->_color != BLACK && to_add->parent->_color == RED)
+
+                while (to_add != _node && to_add->_color != BLACK && to_add->_Parent && to_add->_Parent->_color == RED)
                 {
-                    parent = to_add->parent;
+                    parent = to_add->_Parent;
                     Gparent = parent->_Parent;
                     if (Gparent)
                     {
@@ -182,15 +183,16 @@ namespace ft
                         if (uncle && uncle->_color == RED)
                         {
                             parent->_color = BLACK;
-                            unclue->_color = BLACK;
+                            uncle->_color = BLACK;
                             Gparent->_color = RED;
                             to_add = Gparent;
                         }
                         else
                         {
-                            if (uncle == Gparent->__Rchild)
+                            
+                            if (uncle == Gparent->_Rchild)
                             {
-                                if (to_add == Gparent->Rchild)
+                                if (to_add == Gparent->_Rchild)
                                 {
                                     leftRotate(parent);
                                     to_add = parent;
@@ -202,15 +204,16 @@ namespace ft
                             }
                             else
                             {
-                                if (to_add == parent->Lchild)
+                                if (to_add == parent->_Lchild)
                                 {
                                     rightRotate(parent);
                                     to_add = parent;
-                                    parent = to_add->parent;
+                                    parent = to_add->_Parent;
                                 }
                                 leftRotate(Gparent);
                                 std::swap(parent->_color, Gparent->_color);
                                 to_add = parent;
+                            
                             }
                         }
                     }
@@ -222,13 +225,13 @@ namespace ft
             {
                 pointer y = to_add->_Rchild;
                 to_add->_Rchild = y->_Lchild;
-                if (to_add != NULL)
+                if (to_add->_Rchild != NULL)
                     y->_Rchild->_Parent = to_add;
-                y->_Parent = = to_add->_parent;
+                y->_Parent = to_add->_Parent;
                 if (to_add->_Parent == NULL)
                     _node = y;
-                else if (to_add == to_add->_parent->_Lchild)
-                    to_add->_parent->_Lchild = y;
+                else if (to_add == to_add->_Parent->_Lchild)
+                    to_add->_Parent->_Lchild = y;
                 else
                     to_add->_Parent = y;
                 y->_Lchild = to_add;
@@ -241,11 +244,12 @@ namespace ft
                 to_add->_Lchild = y->_Rchild;
                 if (to_add->_Lchild != NULL)
                     to_add->_Lchild->_Parent = to_add;
+
                 y->_Parent = to_add->_Parent;
                 if (to_add->_Parent == NULL)
                     _node = y;
                 else if (to_add == to_add->_Parent->_Rchild)
-                    to_add->_parent->_Rchild = y;
+                    to_add->_Parent->_Rchild = y;
                 else
                     to_add->_Parent->_Lchild = y;
                 y->_Rchild = to_add;
