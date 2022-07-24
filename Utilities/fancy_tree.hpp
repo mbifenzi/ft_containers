@@ -6,18 +6,18 @@
 #include <cmath>
 
 //header file that contains Node definition
-#include "../../Containers/Map/map.hpp"
+#include "../Containers/Map/rbt.hpp"
 
 /*===================Node====================*/
 
 // Node class
-#define NODE Node<T>
+#define NODE ft::Node<T>
 
 // Node class attributes
-#define LEFT _left				// left attribute
-#define RIGHT _right			// right attribute
-#define PARENT _parent			// parent attribute (can be ignnored)
-#define CONTENT _value			// data attribute + element of pair(if exists)
+#define LEFT _Lchild				// left attribute
+#define RIGHT _Rchild			// right attribute
+#define PARENT _Parent	// parent attribute (can be ignnored)
+#define CONTENT _data->first			// data attribute + element of pair(if exists)
 
 /*===========================================*/
 

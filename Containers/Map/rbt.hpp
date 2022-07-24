@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include "../../Utilities/pair.hpp"
 #include "../../Iterator/biterator.hpp"
-#include "../../Utilities/fancy_tree.hpp"
+// #include "../../Utilities/fancy_tree.hpp"
 
 #define BLACK 0
 #define RED   1
@@ -423,8 +423,8 @@ namespace ft
                 if (_node)
                     printHelper(this->_node, " ", true);
             }
+            //  ------------------
 
-            void Vprinter()
 
             void printHelper(pointer root, std::string indent, bool last)
             {
@@ -447,6 +447,11 @@ namespace ft
 	        	}
 	        	// cout<<root->left->data<<endl;
 	        } 
+
+            pointer getNode()
+            {
+                return _node;
+            }
 
             bool empty() const{return !_size;};
 

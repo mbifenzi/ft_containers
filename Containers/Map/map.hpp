@@ -87,8 +87,9 @@ namespace ft
 			void Print(){
 				_rbt.printTree();
 			}
-			void Vprint(){
-				_rbt.vprintTree();
+			node_ptr getNode()
+			{
+				return _rbt.getNode();
 			}
 	};
 
