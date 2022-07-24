@@ -418,36 +418,6 @@ namespace ft
                 clear();
             }
 
-            void printTree()
-            {
-                if (_node)
-                    printHelper(this->_node, " ", true);
-            }
-            //  ------------------
-
-
-            void printHelper(pointer root, std::string indent, bool last)
-            {
-	        	// print the tree structure on the screen
-	           	if (root != NULL) {
-	        	   std::cout<<indent;
-	        	   if (last) {
-	        	      std::cout<<"R----";
-	        	      indent += "     ";
-	        	   } else {
-	        	      std::cout<<"L----";
-	        	      indent += "|    ";
-	        	   }
-
-                   std::string sColor = root->_color?"RED":"BLACK";
-                   std::string ROOT = (root == _node )? "root":" ";
-	        	   std::cout<<ROOT <<root->_data->first<<"("<<sColor<<")"<< std::endl;
-	        	   printHelper(root->_Lchild, indent, false);
-	        	   printHelper(root->_Rchild, indent, true);
-	        	}
-	        	// cout<<root->left->data<<endl;
-	        } 
-
             pointer getNode()
             {
                 return _node;
