@@ -13,13 +13,13 @@ int main()
     mp.insert(ft::make_pair(10,10));
     mp.insert(ft::make_pair(51,15));
     mp.insert(ft::make_pair(31,31));
-    // mp.insert(ft::make_pair(12,12));
-    // mp.insert(ft::make_pair(22,22));
-    // mp.insert(ft::make_pair(2,2));
-    // mp.insert(ft::make_pair(0,0));
-    // map.Print();
-    fancy_tree<ft::pair<const int,int> > tree;
-    tree.print_tree(mp.getNode(), V_VIEW);
+    std::cout << mp.max_size() << std::endl;
+    // mp.clear();
+
+    std::cout << mp.count(1) << std::endl;
+ 
+    // fancy_tree<ft::pair<const int,int> > tree;
+    // tree.print_tree(mp.getNode(), V_VIEW);
     // std::cout << " ====== " << it->second << std::endl;
     return(0);
 

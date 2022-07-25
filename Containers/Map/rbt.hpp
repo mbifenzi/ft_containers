@@ -69,14 +69,14 @@ namespace ft
     protected:
         key_compare                                             _comp;
         allocator_type                                          _alloc;
-        pointer                                                 _node;
+        pointer                                                 _root;
         size_t                                                  _size;
         typename Allocator::template rebind<Node<T> >::other    _node_alloc;
         allocator_type                                          _value_alloc;
     public:
         rbt(const key_compare &c = key_compare(), const allocator_type &alloc = allocator_type()): _comp(c), _alloc(alloc)
         {
-            _node = NULL;
+            _root = NULL;
             _size = 0;
         }
         rbt(const rbt& rhs)
@@ -93,7 +93,7 @@ namespace ft
         {
             const_iterator it = rhs.begin();
                 for(; it != rhs.end(); it++)
-                    insert_node(_node, *it);
+                    insert_node(_root, *it);
         }
         pointer new_node(const value_type& value)
         {
@@ -111,9 +111,9 @@ namespace ft
 
         pointer search(const value_type &k)
         {
-                if (!_node)
+                if (!_root)
                     return NULL;
-                pointer node = _node;
+                pointer node = _root;
                 while (node)
                 {
                         // std::cout << "search" << std::endl;
@@ -131,14 +131,14 @@ namespace ft
         pair<iterator,bool> insert (const value_type& val){
                 pointer found = search(val);
                 if (found)
-                    return ft::make_pair(iterator(found, _node), false);
-                return ft::make_pair(iterator(insert_node(val), _node), true);
+                    return ft::make_pair(iterator(found, _root), false);
+                return ft::make_pair(iterator(insert_node(val), _root), true);
             }
 
             pointer    insert_node(const value_type& value)
 			{
 				pointer to_add = new_node(value);
-				pointer root = this->_node;
+				pointer root = this->_root;
                 // return(to_add);
                 pointer x = NULL;
 
@@ -153,15 +153,15 @@ namespace ft
                 to_add->_Parent = x;
                 if (x == NULL)
                 {
-                    _node = to_add;
-                    _node->_color = BLACK;
+                    _root = to_add;
+                    _root->_color = BLACK;
                     // return ;
                 }
                 else if (_comp.operator()(*to_add->_data,  *x->_data))
                     x->_Lchild = to_add;
                 else
                     x->_Rchild = to_add;
-                if (to_add->_color == RED && x->_color == RED) 
+                if ( to_add->_color == RED && x->_color == RED ) 
                     fix_unbalanced(to_add);
                 _size++;
                 return(to_add);
@@ -174,7 +174,7 @@ namespace ft
                 pointer uncle = NULL;
 
 
-                while (to_add != _node && to_add->_color != BLACK && to_add->_Parent && to_add->_Parent->_color == RED)
+                while (to_add != _root && to_add->_color != BLACK && to_add->_Parent && to_add->_Parent->_color == RED)
                 {
                     parent = to_add->_Parent;
                     Gparent = parent->_Parent;
@@ -214,52 +214,51 @@ namespace ft
                                 leftRotate(Gparent);
                                 std::swap(parent->_color, Gparent->_color);
                                 to_add = parent;
-                            
                             }
                         }
                     }
                 }
-                _node->_color = BLACK;
+                _root->_color = BLACK;
             }
 
-            void leftRotate(pointer to_add)
+            void leftRotate(pointer Gparent)
             {
-                pointer y = to_add->_Rchild;
-                to_add->_Rchild = y->_Lchild;
-                if (to_add->_Rchild != NULL)
-                    y->_Rchild->_Parent = to_add;
-                y->_Parent = to_add->_Parent;
-                if (to_add->_Parent == NULL)
-                    _node = y;
-                else if (to_add == to_add->_Parent->_Lchild)
-                    to_add->_Parent->_Lchild = y;
+                pointer y = Gparent->_Rchild;
+                Gparent->_Rchild = y->_Lchild;
+                if (Gparent->_Rchild != NULL)
+                    y->_Rchild->_Parent = Gparent;
+                y->_Parent = Gparent->_Parent;
+                if (Gparent->_Parent == NULL)
+                    _root = y;
+                else if (Gparent == Gparent->_Parent->_Lchild)
+                    Gparent->_Parent->_Lchild = y;
                 else
-                    to_add->_Parent = y;
-                y->_Lchild = to_add;
-                to_add->_Parent = y;
+                    Gparent->_Parent = y;
+                y->_Lchild = Gparent;
+                Gparent->_Parent = y;
             }
 
-            void rightRotate(pointer to_add)
+            void rightRotate(pointer Gparent)
             {
-                pointer y = to_add->_Lchild;
-                to_add->_Lchild = y->_Rchild;
-                if (to_add->_Lchild != NULL)
-                    to_add->_Lchild->_Parent = to_add;
+                pointer y = Gparent->_Lchild;
+                Gparent->_Lchild = y->_Rchild;
+                if (Gparent->_Lchild != NULL)
+                    Gparent->_Lchild->_Parent = Gparent;
 
-                y->_Parent = to_add->_Parent;
-                if (to_add->_Parent == NULL)
-                    _node = y;
-                else if (to_add == to_add->_Parent->_Rchild)
-                    to_add->_Parent->_Rchild = y;
+                y->_Parent = Gparent->_Parent;
+                if (Gparent->_Parent == NULL)
+                    _root = y;
+                else if (Gparent == Gparent->_Parent->_Rchild)
+                    Gparent->_Parent->_Rchild = y;
                 else
-                    to_add->_Parent->_Lchild = y;
-                y->_Rchild = to_add;
-                to_add->_Parent = y;
+                    Gparent->_Parent->_Lchild = y;
+                y->_Rchild = Gparent;
+                Gparent->_Parent = y;
             }
 
-            void    erase_node(const value_type& value)
+            void    erase_root(const value_type& value)
             {
-                pointer root = this->_node;
+                pointer root = this->_root;
                 pointer x = NULL;
                 pointer y = NULL;
                 pointer z = NULL;
@@ -279,7 +278,7 @@ namespace ft
                 if (y == NULL)
                 {
                     if (x->_Parent == NULL)
-                        _node = NULL;
+                        _root = NULL;
                     else
                     {
                         if (x->_Parent->_Lchild == x)
@@ -315,7 +314,7 @@ namespace ft
                     }
                 }
                 if (x->_Parent == NULL)
-                    _node = y;
+                    _root = y;
                 else
                 {
                     if (x->_Parent->_Lchild == x)
@@ -330,16 +329,16 @@ namespace ft
                     fix_unbalanced(y->_data);
             }
 
-            void    destroy_node(pointer node){
+            void    destroy_root(pointer node){
                 _alloc.destroy(node->_data);
                 _alloc.deallocate(node->_data, 1);
                 _node_alloc.deallocate(node, 1);
             };
 
             void clear(){
-                if (_node){
-                    _clear(_node);
-                    _node = NULL;
+                if (_root){
+                    _clear(_root);
+                    _root = NULL;
                     _size = 0;
                 }
             };
@@ -353,17 +352,17 @@ namespace ft
                     _clear(node->_Rchild);
                 pointer parent = node->_Parent;
                 if (!parent)
-                    _node = NULL;
+                    _root = NULL;
 				else if (parent->_Lchild == node)
 					parent->_Lchild = NULL;
 				else
 					parent->_Rchild = NULL;
-                destroy_node(node);
+                destroy_root(node);
             };
 
             pointer min()
             {
-                pointer node = _node;
+                pointer node = _root;
                 if (!node)
                     return NULL;
                 while (node->_Lchild)
@@ -373,7 +372,7 @@ namespace ft
 
             pointer max()
             {
-                pointer node = _node;
+                pointer node = _root;
                 if (!node)
                     return NULL;
                 while (node->_Rchild)
@@ -410,7 +409,7 @@ namespace ft
 
             pointer root()
             {
-                return _node;
+                return _root;
             };
 
             ~rbt()
@@ -420,14 +419,14 @@ namespace ft
 
             pointer getNode()
             {
-                return _node;
+                return _root;
             }
 
             bool empty() const{return !_size;};
 
             size_type size() const{return _size;};
 
-            size_type max_size() const{return _size;};
+            size_type max_size() const{ return _node_alloc.max_size();};
 
             size_type capacity() const{return _size;};
 
@@ -437,7 +436,7 @@ namespace ft
             
             void swap(rbt& other)
             {
-                std::swap(_node, other._node);
+                std::swap(_root, other._root);
                 std::swap(_size, other._size);
             };
         

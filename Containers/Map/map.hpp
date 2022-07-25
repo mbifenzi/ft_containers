@@ -59,6 +59,7 @@ namespace ft
                     first++;
                 }
             };
+			void clear(){_rbt.clear();};
 			~map() { _rbt.clear();}
 			mapped_type operator[](const key_type &key)
 			{
@@ -79,14 +80,130 @@ namespace ft
 					reverse_iterator rend() { return reverse_iterator(begin()); }
 					const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 					bool empty() const { return(_rbt.empty()); }
-					// size_type size() const { return(_rbt.size()); }
-					// size_type max_size() const { return(_rbt.max_size()); }
-					// void swap(map &rhs) { _rbt.swap(rhs._rbt); }
-					// mapped_type &operator[](const key_type &key) { return(_rbt[key]); }
-					// mapped_type &at(const key_type &key) { return(_rbt.at(key)); }
-			void Print(){
-				_rbt.printTree();
-			}
+					size_type size() const { return(_rbt.size()); }
+					size_type max_size() const { return(_rbt.max_size()); }
+					key_compare key_comp() const { return(_comp); }
+					value_compare value_comp() const { return(_value_comp); }
+					allocator_type get_allocator() const { return(_alloc); }
+					mapped_type &at(const key_type &key)
+					{
+						iterator it = find(key);
+						if (it == end())
+							throw std::out_of_range("map::at");
+						return(it->second);
+					}
+					const mapped_type &at(const key_type &key) const
+					{
+						const_iterator it = find(key);
+						if (it == end())
+							throw std::out_of_range("map::at");
+						return(it->second);
+					}
+					iterator find(const key_type &key)
+					{
+						node_ptr p = _rbt.root();
+						while (p != _rbt.nil())
+						{
+							if (_comp(key, p->_key))
+								p = p->_Lchild;
+							else if (_comp(p->_key, key))
+								p = p->_Rchild;
+							else
+								return(iterator(p, _rbt.root()));
+						}
+						return(end());
+					}
+					const_iterator find(const key_type &key) const
+					{
+						node_ptr p = _rbt.root();
+						while (p != _rbt.nil())
+						{
+							if (_comp(key, p->_key))
+								p = p->_Lchild;
+							else if (_comp(p->_key, key))
+								p = p->_Rchild;
+							else
+								return(const_iterator(p, _rbt.root()));
+						}
+						return(end());
+					}
+					size_type count(const key_type &key) const
+					{
+						return(find(key) == end() ? 0 : 1);
+					}
+					iterator lower_bound(const key_type &key)
+					{
+						node_ptr p = _rbt.root();
+						while (p != _rbt.nil())
+						{
+							if (_comp(key, p->_key))
+								p = p->_Lchild;
+							else
+								p = p->_Rchild;
+						}
+						return(iterator(p, _rbt.root()));
+					}
+
+					const_iterator lower_bound(const key_type &key) const
+					{
+						node_ptr p = _rbt.root();
+						while (p != _rbt.nil())
+						{
+							if (_comp(key, p->_key))
+								p = p->_Lchild;
+							else
+								p = p->_Rchild;
+						}
+						return(const_iterator(p, _rbt.root()));
+					}
+
+					iterator upper_bound(const key_type &key)
+					{
+						node_ptr p = _rbt.root();
+						while (p != _rbt.nil())
+						{
+							if (_comp(key, p->_key))
+								p = p->_Lchild;
+							else
+								p = p->_Rchild;
+						}
+						return(iterator(p, _rbt.root()));
+					}
+
+					const_iterator upper_bound(const key_type &key) const
+					{
+						node_ptr p = _rbt.root();
+						while (p != _rbt.nil())
+						{
+							if (_comp(key, p->_key))
+								p = p->_Lchild;
+							else
+								p = p->_Rchild;
+						}
+						return(const_iterator(p, _rbt.root()));
+					}
+
+					std::pair<iterator, iterator> equal_range(const key_type &key)
+					{
+						iterator it1 = lower_bound(key);
+						iterator it2 = upper_bound(key);
+						return(std::make_pair(it1, it2));
+					}
+
+					std::pair<const_iterator, const_iterator> equal_range(const key_type &key) const
+					{
+						const_iterator it1 = lower_bound(key);
+						const_iterator it2 = upper_bound(key);
+						return(std::make_pair(it1, it2));
+					}
+
+					void swap(map &other)
+					{
+						_rbt.swap(other._rbt);
+						std::swap(_comp, other._comp);
+						std::swap(_alloc, other._alloc);
+					}
+					
 			node_ptr getNode()
 			{
 				return _rbt.getNode();
