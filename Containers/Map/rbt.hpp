@@ -370,7 +370,7 @@ namespace ft
                 return node;
             };
 
-            pointer max()
+            pointer max() const
             {
                 pointer node = _root;
                 if (!node)
@@ -407,7 +407,7 @@ namespace ft
                 return parent;
             };
 
-            pointer root()
+            pointer root() const
             {
                 return _root;
             };
@@ -417,10 +417,6 @@ namespace ft
                 clear();
             }
 
-            pointer getNode()
-            {
-                return _root;
-            }
 
             bool empty() const{return !_size;};
 
@@ -438,6 +434,45 @@ namespace ft
             {
                 std::swap(_root, other._root);
                 std::swap(_size, other._size);
+            };
+
+            pointer getNode()
+            {
+                return _root;
+            }
+
+            iterator find (const value_type& k)
+            {
+                if (!_root)
+                    return (iterator(NULL, _root));
+                pointer node = _root;
+                while (node){
+                    if (!_comp.operator()(k, *node->_data) && !_comp.operator()(*node->_data, k))
+                        return iterator(node, _root);
+                    if (_comp.operator()(k, *node->_data)){
+                        node = node->_Lchild;
+                    } else{
+                        node = node->_Rchild;
+                    }
+                }
+                return (iterator(NULL, _root));
+            };
+
+            const_iterator find (const value_type& k) const
+            {
+                if (!_root)
+                    return (const_iterator(NULL, _root));
+                pointer node = _root;
+                while (node){
+                    if (!_comp.operator()(k, *node->_data) && !_comp.operator()(*node->_data, k))
+                        return const_iterator(node, _root);
+                    if (_comp.operator()(k, *node->_data)){
+                        node = node->_Lchild;
+                    } else{
+                        node = node->_Rchild;
+                    }
+                }
+                return (const_iterator(NULL, _root));
             };
         
             

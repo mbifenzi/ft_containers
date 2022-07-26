@@ -99,34 +99,9 @@ namespace ft
 							throw std::out_of_range("map::at");
 						return(it->second);
 					}
-					iterator find(const key_type &key)
-					{
-						node_ptr p = _rbt.root();
-						while (p != _rbt.nil())
-						{
-							if (_comp(key, p->_key))
-								p = p->_Lchild;
-							else if (_comp(p->_key, key))
-								p = p->_Rchild;
-							else
-								return(iterator(p, _rbt.root()));
-						}
-						return(end());
-					}
-					const_iterator find(const key_type &key) const
-					{
-						node_ptr p = _rbt.root();
-						while (p != _rbt.nil())
-						{
-							if (_comp(key, p->_key))
-								p = p->_Lchild;
-							else if (_comp(p->_key, key))
-								p = p->_Rchild;
-							else
-								return(const_iterator(p, _rbt.root()));
-						}
-						return(end());
-					}
+					iterator find(const key_type &key) { return _rbt.find(ft::make_pair(key, mapped_type())); }
+
+					const_iterator find(const key_type &key) const { return _rbt.find(ft::make_pair(key, mapped_type()));}
 					size_type count(const key_type &key) const
 					{
 						return(find(key) == end() ? 0 : 1);
