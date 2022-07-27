@@ -14,9 +14,11 @@ int main()
     mp.insert(ft::make_pair(51,15));
     mp.insert(ft::make_pair(31,31));
 
+    std::cout << "mp: " << mp.count(1) << std::endl;
 
-    ft::pair<ft::map<int, int>::iterator, ft::map<int, int>::iterator> ret =  mp.equal_range(2);
-    std::cout << ret.first->first << std::endl;
+
+    // ft::pair<ft::map<int, int>::iterator, ft::map<int, int>::iterator> ret =  mp.equal_range(2);
+    // std::cout << ret.first->first << std::endl;
  
     // fancy_tree<ft::pair<const int,int> > tree;
     // tree.print_tree(mp.getNode(), V_VIEW);

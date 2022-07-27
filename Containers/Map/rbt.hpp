@@ -417,6 +417,10 @@ namespace ft
                 clear();
             }
 
+            pointer getNode()
+            {
+                return _root;
+            }
 
             bool empty() const{return !_size;};
 
@@ -436,7 +440,6 @@ namespace ft
                 std::swap(_size, other._size);
             };
 
-<<<<<<< HEAD
             iterator find (const value_type& key){
                 if (!_root)
                     return iterator(NULL, _root);
@@ -445,28 +448,11 @@ namespace ft
                     if (!_comp.operator()(key, *node->_data) && !_comp.operator()(*node->_data, key))
                         return iterator(node, _root);
                     if (_comp.operator()(key, *node->_data)){
-=======
-            pointer getNode()
-            {
-                return _root;
-            }
-
-            iterator find (const value_type& k)
-            {
-                if (!_root)
-                    return (iterator(NULL, _root));
-                pointer node = _root;
-                while (node){
-                    if (!_comp.operator()(k, *node->_data) && !_comp.operator()(*node->_data, k))
-                        return iterator(node, _root);
-                    if (_comp.operator()(k, *node->_data)){
->>>>>>> b0d9202b91980d3b6eff92af2659abe74fdf5ee4
                         node = node->_Lchild;
                     } else{
                         node = node->_Rchild;
                     }
                 }
-<<<<<<< HEAD
                 return iterator(NULL, _root);
             };
 
@@ -478,30 +464,12 @@ namespace ft
                     if (!_comp.operator()(key, *node->_data) && !_comp.operator()(*node->_data, key))
                         return iterator(node, _root);
                     if (_comp.operator()(key, *node->_data)){
-=======
-                return (iterator(NULL, _root));
-            };
-
-            const_iterator find (const value_type& k) const
-            {
-                if (!_root)
-                    return (const_iterator(NULL, _root));
-                pointer node = _root;
-                while (node){
-                    if (!_comp.operator()(k, *node->_data) && !_comp.operator()(*node->_data, k))
-                        return const_iterator(node, _root);
-                    if (_comp.operator()(k, *node->_data)){
->>>>>>> b0d9202b91980d3b6eff92af2659abe74fdf5ee4
                         node = node->_Lchild;
                     } else{
                         node = node->_Rchild;
                     }
                 }
-<<<<<<< HEAD
                 return  const_iterator(NULL, _root);
-=======
-                return (const_iterator(NULL, _root));
->>>>>>> b0d9202b91980d3b6eff92af2659abe74fdf5ee4
             };
         
             
