@@ -85,6 +85,7 @@ namespace ft
 					key_compare key_comp() const { return(_comp); }
 					value_compare value_comp() const { return(_value_comp); }
 					allocator_type get_allocator() const { return(_alloc); }
+<<<<<<< HEAD
 					// mapped_type &at(const key_type &key)
 					// {
 					// 	iterator it = find(key);
@@ -102,6 +103,25 @@ namespace ft
 					iterator find(const key_type &key) { return _rbt.find(ft::make_pair(key, mapped_type())); }
 					const_iterator find(const key_type &key) const { return _rbt.find(ft::make_pair(key, mapped_type()));}
 
+=======
+					mapped_type &at(const key_type &key)
+					{
+						iterator it = find(key);
+						if (it == end())
+							throw std::out_of_range("map::at");
+						return(it->second);
+					}
+					const mapped_type &at(const key_type &key) const
+					{
+						const_iterator it = find(key);
+						if (it == end())
+							throw std::out_of_range("map::at");
+						return(it->second);
+					}
+					iterator find(const key_type &key) { return _rbt.find(ft::make_pair(key, mapped_type())); }
+
+					const_iterator find(const key_type &key) const { return _rbt.find(ft::make_pair(key, mapped_type()));}
+>>>>>>> b0d9202b91980d3b6eff92af2659abe74fdf5ee4
 					size_type count(const key_type &key) const
 					{
 						return(find(key) == end() ? 0 : 1);
