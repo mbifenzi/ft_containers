@@ -370,7 +370,7 @@ namespace ft
                 return node;
             };
 
-            pointer max()
+            pointer max() const
             {
                 pointer node = _root;
                 if (!node)
@@ -407,7 +407,7 @@ namespace ft
                 return parent;
             };
 
-            pointer root()
+            pointer root() const
             {
                 return _root;
             };
@@ -438,6 +438,38 @@ namespace ft
             {
                 std::swap(_root, other._root);
                 std::swap(_size, other._size);
+            };
+
+            iterator find (const value_type& key){
+                if (!_root)
+                    return iterator(NULL, _root);
+                pointer node = _root;
+                while (node){
+                    if (!_comp.operator()(key, *node->_data) && !_comp.operator()(*node->_data, key))
+                        return iterator(node, _root);
+                    if (_comp.operator()(key, *node->_data)){
+                        node = node->_Lchild;
+                    } else{
+                        node = node->_Rchild;
+                    }
+                }
+                return iterator(NULL, _root);
+            };
+
+            const_iterator find (const value_type& key) const {
+                if (!_root)
+                    return const_iterator(NULL, _root);
+                pointer node = _root;
+                while (node){
+                    if (!_comp.operator()(key, *node->_data) && !_comp.operator()(*node->_data, key))
+                        return iterator(node, _root);
+                    if (_comp.operator()(key, *node->_data)){
+                        node = node->_Lchild;
+                    } else{
+                        node = node->_Rchild;
+                    }
+                }
+                return  const_iterator(NULL, _root);
             };
         
             

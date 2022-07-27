@@ -85,48 +85,23 @@ namespace ft
 					key_compare key_comp() const { return(_comp); }
 					value_compare value_comp() const { return(_value_comp); }
 					allocator_type get_allocator() const { return(_alloc); }
-					mapped_type &at(const key_type &key)
-					{
-						iterator it = find(key);
-						if (it == end())
-							throw std::out_of_range("map::at");
-						return(it->second);
-					}
-					const mapped_type &at(const key_type &key) const
-					{
-						const_iterator it = find(key);
-						if (it == end())
-							throw std::out_of_range("map::at");
-						return(it->second);
-					}
-					iterator find(const key_type &key)
-					{
-						node_ptr p = _rbt.root();
-						while (p != _rbt.nil())
-						{
-							if (_comp(key, p->_key))
-								p = p->_Lchild;
-							else if (_comp(p->_key, key))
-								p = p->_Rchild;
-							else
-								return(iterator(p, _rbt.root()));
-						}
-						return(end());
-					}
-					const_iterator find(const key_type &key) const
-					{
-						node_ptr p = _rbt.root();
-						while (p != _rbt.nil())
-						{
-							if (_comp(key, p->_key))
-								p = p->_Lchild;
-							else if (_comp(p->_key, key))
-								p = p->_Rchild;
-							else
-								return(const_iterator(p, _rbt.root()));
-						}
-						return(end());
-					}
+					// mapped_type &at(const key_type &key)
+					// {
+					// 	iterator it = find(key);
+					// 	if (it == end())
+					// 		throw std::out_of_range("map::at");
+					// 	return(it->second);
+					// }
+					// const mapped_type &at(const key_type &key) const
+					// {
+					// 	const_iterator it = find(key);
+					// 	if (it == end())
+					// 		throw std::out_of_range("map::at");
+					// 	return(it->second);
+					// }
+					iterator find(const key_type &key) { return _rbt.find(ft::make_pair(key, mapped_type())); }
+					const_iterator find(const key_type &key) const { return _rbt.find(ft::make_pair(key, mapped_type()));}
+
 					size_type count(const key_type &key) const
 					{
 						return(find(key) == end() ? 0 : 1);
@@ -183,14 +158,14 @@ namespace ft
 						return(const_iterator(p, _rbt.root()));
 					}
 
-					std::pair<iterator, iterator> equal_range(const key_type &key)
+					ft::pair<iterator, iterator> equal_range(const key_type &key)
 					{
 						iterator it1 = lower_bound(key);
 						iterator it2 = upper_bound(key);
-						return(std::make_pair(it1, it2));
+						return(ft::make_pair(it1, it2));
 					}
 
-					std::pair<const_iterator, const_iterator> equal_range(const key_type &key) const
+					ft::pair<const_iterator, const_iterator> equal_range(const key_type &key) const
 					{
 						const_iterator it1 = lower_bound(key);
 						const_iterator it2 = upper_bound(key);
@@ -203,7 +178,7 @@ namespace ft
 						std::swap(_comp, other._comp);
 						std::swap(_alloc, other._alloc);
 					}
-					
+
 			node_ptr getNode()
 			{
 				return _rbt.getNode();
