@@ -471,6 +471,22 @@ namespace ft
                 }
                 return  const_iterator(NULL, _root);
             };
+
+            iterator bound(const value_type& key)
+            {
+                pointer ret = NULL;
+                pointer node = _root;
+                while (node){
+                    if (_comp.operator()(key, *node->_data)){
+                        ret = node;
+                        node = node->_Lchild;
+                    }
+                    else{
+                        node = node->_Rchild;
+                    }
+                }
+                return (iterator(ret, _root));
+            };
         
             
     };

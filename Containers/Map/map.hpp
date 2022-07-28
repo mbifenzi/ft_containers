@@ -110,54 +110,28 @@ namespace ft
 					}
 					iterator lower_bound(const key_type &key)
 					{
-						node_ptr p = _rbt.root();
-						while (p != _rbt.nil())
-						{
-							if (_comp(key, p->_key))
-								p = p->_Lchild;
-							else
-								p = p->_Rchild;
-						}
-						return(iterator(p, _rbt.root()));
+						iterator found = find(key);
+						if (found != end())
+							return found;
+						return (_rbt.bound(ft::make_pair(key, mapped_type())));
 					}
 
 					const_iterator lower_bound(const key_type &key) const
 					{
-						node_ptr p = _rbt.root();
-						while (p != _rbt.nil())
-						{
-							if (_comp(key, p->_key))
-								p = p->_Lchild;
-							else
-								p = p->_Rchild;
-						}
-						return(const_iterator(p, _rbt.root()));
+						iterator found = find(key);
+						if (found != end())
+							return found;
+						return (_rbt.bound(ft::make_pair(key, mapped_type())));
 					}
 
 					iterator upper_bound(const key_type &key)
 					{
-						node_ptr p = _rbt.root();
-						while (p != _rbt.nil())
-						{
-							if (_comp(key, p->_key))
-								p = p->_Lchild;
-							else
-								p = p->_Rchild;
-						}
-						return(iterator(p, _rbt.root()));
+						return (_rbt.bound(ft::make_pair(key, mapped_type())));
 					}
 
 					const_iterator upper_bound(const key_type &key) const
 					{
-						node_ptr p = _rbt.root();
-						while (p != _rbt.nil())
-						{
-							if (_comp(key, p->_key))
-								p = p->_Lchild;
-							else
-								p = p->_Rchild;
-						}
-						return(const_iterator(p, _rbt.root()));
+						return (_rbt.bound(ft::make_pair(key, mapped_type())));
 					}
 
 					ft::pair<iterator, iterator> equal_range(const key_type &key)
@@ -171,7 +145,7 @@ namespace ft
 					{
 						const_iterator it1 = lower_bound(key);
 						const_iterator it2 = upper_bound(key);
-						return(std::make_pair(it1, it2));
+						return(ft::make_pair(it1, it2));
 					}
 
 					void swap(map &other)
