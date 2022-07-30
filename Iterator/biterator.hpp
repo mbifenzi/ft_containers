@@ -35,7 +35,7 @@ namespace ft
 
 			reference operator*() const
 			{
-				return(_node->_data);
+				return *(_node->_data);
 			}
 
 			pointer operator->() 

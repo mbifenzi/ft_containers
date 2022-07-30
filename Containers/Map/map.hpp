@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <functional>
 #include "../../Utilities/pair.hpp"
+#include "../Vector/Vector.hpp"
 // #include "../../Iterator/biterator.hpp"
 
 namespace ft
@@ -154,6 +155,19 @@ namespace ft
 						std::swap(_comp, other._comp);
 						std::swap(_alloc, other._alloc);
 					}
+
+					void erase(iterator it) { _rbt.erase(*it); }
+
+					size_type erase (const key_type& k) { return (_rbt.erase(ft::make_pair(k, mapped_type()))); };
+
+					void erase (iterator first, iterator last)
+					{
+						ft::vector<key_type> tmp;
+						for (; first != last; first++)
+							tmp.push_back(first->first);
+						for (size_type i = 0; i < tmp.size(); i++)
+							_rbt.erase(ft::make_pair(tmp[i], mapped_type()));
+					};
 
 			node_ptr getNode()
 			{

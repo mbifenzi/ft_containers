@@ -8,22 +8,27 @@
 int main()
 {
     
-    std::map<std::pair<int, int>, std::pair<int, int> >mp;
-    mp.insert(std::make_pair(std::make_pair(1,1), std::make_pair(2,2)));
-    mp.insert(std::make_pair(std::make_pair(3,3), std::make_pair(4,4)));
-    mp.insert(std::make_pair(std::make_pair(5,5), std::make_pair(6,6)));
-    // mp.insert(std::make_pair(std::make_pair(1,1), std::make_pair(2,2)));
-    // mp.insert(std::make_pair(10,10));
-    // mp.insert(std::make_pair(51,15));
-    // mp.insert(std::make_pair(31,31));
+    std::map<int, int> mp;
 
-    std::map<std::pair<int, int>, std::pair<int, int> >::iterator it = mp.begin();
-    std::cout << it->first.first << std::endl;
+    mp.insert(std::make_pair(10,10));
+    mp.insert(std::make_pair(51,15));
+    mp.insert(std::make_pair(31,31));
+    mp.insert(std::make_pair(66,66));
+    mp.insert(std::make_pair(77,77));
+
+    std::map<int,int>::iterator it;
+    it  = mp.begin();
+    std::map<int,int>::const_iterator ite(it);
+    ite = ++it;
+    ite->second = 100;
+    // ft::map<int,int>::const_iterator i2(it);
+    std::cout << ite->second << std::endl;
+    // mp.erase(it);
+
+    // std::cout << it->first << std::endl;
  
     // fancy_tree<ft::pair<const int,int> > tree;
     // tree.print_tree(mp.getNode(), V_VIEW);
     // std::cout << " ====== " << it->second << std::endl;
-    return(0);
-
-    // std::cout << *it << std::endl;
+    return (0);
 }
