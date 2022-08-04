@@ -16,14 +16,17 @@ int main()
     mp.insert(std::make_pair(66,66));
     mp.insert(std::make_pair(77,77));
 
-    std::map<int,int>::iterator it;
+    std::map<int,int>::iterator it = mp.begin();
     it  = mp.begin();
-    std::map<int,int>::const_iterator ite(it);
-    ite = ++it;
-    ite->second = 100;
+    std::map<int,int>::const_iterator it2 (it);
+    // it++;
+
+    it2->second = 100;
     // ft::map<int,int>::const_iterator i2(it);
-    std::cout << ite->second << std::endl;
+    std::cout << it2->second << std::endl;
+
     // mp.erase(it);
+    // std::cout << it->second << std::endl;
 
     // std::cout << it->first << std::endl;
  

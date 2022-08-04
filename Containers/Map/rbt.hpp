@@ -128,7 +128,7 @@ namespace ft
                 return NULL;
             }
 
-        pair<iterator,bool> insert (const value_type& val){
+            pair<iterator,bool> insert (const value_type& val){
                 pointer found = search(val);
                 if (found)
                     return ft::make_pair(iterator(found, _root), false);
@@ -252,7 +252,7 @@ namespace ft
                 else
                     Gparent->_Parent->_Lchild = y;
                 y->_Rchild = Gparent;
-                Gparent->_Parent = y;
+                Gparent->_Parent = y; 
             }
 
             size_type erase(const value_type& node)
@@ -268,11 +268,11 @@ namespace ft
 
             void    erase_node(pointer to_delete)
             {
-               if (!to_delete->_Lchild && !to_delete->_Rchild)
-               {
-                    delete_rebalance(to_delete);
+                if (!to_delete->_Lchild && !to_delete->_Rchild)
+                {
+                    erase_rebalance(to_delete);
                     pointer parent = to_delete->_Parent;
-                    std::cout << "erase = " << std::endl;
+                    // std::cout << "erase = " << std::endl;
                     if (!parent)
                         _root = NULL;
 					else if (parent->_Lchild == to_delete)
@@ -282,17 +282,19 @@ namespace ft
 					destroy_node(to_delete);
                     _size--;
 				}
-				else if (to_delete->_Lchild){
+				else if (to_delete->_Lchild)
+                {
 					pointer predecessor = _inOrderPredecessor(to_delete);
 					_alloc.destroy(to_delete->_data);
 					_alloc.construct(to_delete->_data, *(predecessor->_data));
 					erase_node(predecessor);
 				}
-				else{
-					pointer succesor = _inOrderSuccessor(to_delete);
+				else
+                {
+					pointer successor = _inOrderSuccessor(to_delete);
 					_alloc.destroy(to_delete->_data);
-					_alloc.construct(to_delete->_data, *(succesor->_data));
-					erase_node(succesor);
+					_alloc.construct(to_delete->_data, *(successor->_data));
+					erase_node(successor);
 				}
             }
             pointer	_inOrderSuccessor(pointer pt)
@@ -327,11 +329,11 @@ namespace ft
                 return parent;
             };
 
-            void delete_rebalance(pointer node)
+            void erase_rebalance(pointer node)
             {
                 if (node->_color == RED){
                     //Case 1: Just delete node, tree still valid;
-                    return;
+                    return ;
                 }
                 if (node == _root){
                     //Case 2: remove Double Black from root and return;
@@ -339,21 +341,26 @@ namespace ft
                     return;
                 }
                 pointer sibling = (node == node->_Parent->_Lchild) ? node->_Parent->_Rchild : node->_Parent->_Lchild;
-                if (sibling && sibling->_color == BLACK){
+                if (sibling && sibling->_color == BLACK)
+                {
                     if ((!sibling->_Rchild || sibling->_Rchild->_color == BLACK) && 
-                        (!sibling->_Lchild || sibling->_Lchild->_color == BLACK)){
+                        (!sibling->_Lchild || sibling->_Lchild->_color == BLACK))
+                    {
                         //Case 3: sibling and it's childrens color is BLACK.
                         sibling->_color = RED;
-                        if (node->_Parent->_color == RED){
+                        if (node->_Parent->_color == RED)
+                        {
                             node->_Parent->_color = BLACK;
                             return;
-                        } else  {
-                            delete_rebalance(node->_Parent);
-                        }
+                        } 
+                        else 
+                            erase_rebalance(node->_Parent);
                     }
-                    if (node == node->_Parent->_Lchild){
+                    if (node == node->_Parent->_Lchild)
+                    {
                         if ((!sibling->_Rchild || sibling->_Rchild->_color == BLACK) &&
-                            sibling->_Lchild && sibling->_Lchild->_color == RED){
+                            sibling->_Lchild && sibling->_Lchild->_color == RED)
+                        {
                         //Case 5: nearst child is RED, and furthest is BLACK;
                         //swap sibling and it's nearst child's colors
                         //Rotate sibling in opposite direction of node
@@ -361,7 +368,8 @@ namespace ft
                             rightRotate(sibling);
                             sibling = node->_Parent->_Rchild;
                         }
-                        if (sibling->_Rchild && sibling->_Rchild->_color == RED){
+                        if (sibling->_Rchild && sibling->_Rchild->_color == RED)
+                        {
                         //Case 6: sibling furthest child is Red.
                         //Swap _Parent and sibling color, color furthest child in BLACK;
                         //Rotate _Parent in direction of node.
@@ -384,16 +392,17 @@ namespace ft
                             rightRotate(node->_Parent);
                         }
                     }
-                } else if (sibling && sibling->_color == RED){
+                }
+                else if (sibling && sibling->_color == RED)
+                {
                     //Case 4: Sibling color is RED. swap _Parent and sibling colors, rotate _Parent in node direction
                     //recursive call to function 
                     std::swap(sibling->_color, node->_Parent->_color);
-                    if (node == node->_Parent->_Lchild){
+                    if (node == node->_Parent->_Lchild)
                         leftRotate(node->_Parent);
-                    } else {
+                    else
                         rightRotate(node->_Parent);
-                    }
-                    delete_rebalance(node);
+                    erase_rebalance(node);
                 }
 			}
 
