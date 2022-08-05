@@ -17,7 +17,7 @@ namespace ft
             typedef typename iterator_type::reference reference;
             typedef typename iterator_type::iterator_category iterator_category;
             reverse_iterator(){};
-            explicit reverse_iterator (iterator_type it):_it(it){}
+            explicit reverse_iterator (iterator_type it):_it(--it){}
             // reverse_iterator(const reverse_iterator & rhs) : _it(rhs._it){}
             reverse_iterator(const reverse_iterator<iterator_type>& _it){ this->operator=(_it);};
 
@@ -48,7 +48,7 @@ namespace ft
                 --tmp;
                 return tmp.operator->(); 
             }
-            reference operator*() { return *(_it - 1); }
+            reference operator*() { return *(_it); }
             reference operator[](difference_type n) { return _it[-n -1]; }
             bool operator==(reverse_iterator const &it) { return _it == it._it; }
             bool operator!=(reverse_iterator const &it) { return _it != it._it; }

@@ -24,7 +24,7 @@ namespace ft
         pointer _Rchild;
         pointer _Lchild;
         pointer  _Parent;
-        std::allocator<T> _alloc;
+        // std::allocator<T> _alloc;
 
         Node()
         {
@@ -60,10 +60,10 @@ namespace ft
         typedef T                                           value_type;
         typedef size_t                                      size_type;
         typedef Node<value_type>*                           pointer;
-        typedef Node<value_type>*                           const_pointer;
+        typedef const Node<value_type>*                     const_pointer;
         typedef Compare                                     key_compare;
         typedef ft::biterator<Node<value_type>, value_type> iterator;
-        typedef ft::biterator<Node<value_type>, value_type> const_iterator;
+        typedef ft::biterator<Node<value_type>, const value_type> const_iterator;
         
 
     protected:
@@ -85,15 +85,17 @@ namespace ft
         }
         rbt &operator=(const rbt &rhs)
         {
+            // std::cerr << "operator =" << std::endl;
             this->clear();
             _size = 0;
             this->clone(rhs);
+            return (*this);
         }
-        pointer clone(const rbt &rhs)
+        void clone(const rbt &rhs)
         {
-            const_iterator it = rhs.begin();
-                for(; it != rhs.end(); it++)
-                    insert_node(_root, *it);
+            const_iterator it = iterator(rhs.min(), _root);
+                for(; it != iterator(rhs.max(), _root); it++)
+                    insert_node(*it);
         }
         pointer new_node(const value_type& value)
         {
@@ -132,8 +134,11 @@ namespace ft
                 pointer found = search(val);
                 if (found)
                     return ft::make_pair(iterator(found, _root), false);
+                // std::cerr << "insert: " << val.first << std::endl;
                 return ft::make_pair(iterator(insert_node(val), _root), true);
             }
+
+
 
             pointer    insert_node(const value_type& value)
 			{
@@ -192,7 +197,7 @@ namespace ft
                         {
                             if (uncle == Gparent->_Rchild)
                             {
-                                if (to_add == Gparent->_Rchild)
+                                if (to_add == parent->_Rchild)
                                 {
                                     leftRotate(parent);
                                     to_add = parent;
@@ -225,14 +230,14 @@ namespace ft
                 pointer y = Gparent->_Rchild;
                 Gparent->_Rchild = y->_Lchild;
                 if (Gparent->_Rchild != NULL)
-                    y->_Rchild->_Parent = Gparent;
+                    Gparent->_Rchild->_Parent = Gparent;
                 y->_Parent = Gparent->_Parent;
                 if (Gparent->_Parent == NULL)
                     _root = y;
                 else if (Gparent == Gparent->_Parent->_Lchild)
                     Gparent->_Parent->_Lchild = y;
                 else
-                    Gparent->_Parent = y;
+                    Gparent->_Parent->_Rchild = y;
                 y->_Lchild = Gparent;
                 Gparent->_Parent = y;
             }
@@ -407,6 +412,7 @@ namespace ft
 			}
 
             void    destroy_node(pointer node){
+                
                 _alloc.destroy(node->_data);
                 _alloc.deallocate(node->_data, 1);
                 _node_alloc.deallocate(node, 1);
@@ -437,7 +443,7 @@ namespace ft
                 destroy_node(node);
             };
 
-            pointer min()
+            pointer min() const
             {
                 pointer node = _root;
                 if (!node)
@@ -507,10 +513,8 @@ namespace ft
                 return _root;
             };
 
-            ~rbt()
-            {
-                clear();
-            }
+            // ~rbt()
+            // {}
 
             pointer getNode()
             {
@@ -567,7 +571,7 @@ namespace ft
                 return  const_iterator(NULL, _root);
             };
 
-            iterator bound(const value_type& key)
+            iterator bound(const value_type& key) const
             {
                 pointer ret = NULL;
                 pointer node = _root;
@@ -582,7 +586,10 @@ namespace ft
                 }
                 return (iterator(ret, _root));
             };
-        
+            void    set_compare_alloc(const Compare &comp, const Allocator &alloc){
+                _comp = comp;
+                _alloc = alloc;
+            };
             
     };
 }

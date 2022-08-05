@@ -21,6 +21,7 @@ namespace ft
 			class value_compare;
 			typedef Key     													key_type;
 			typedef T															mapped_type;
+			typedef T&															mapped_type_referece;
 			typedef Compare														key_compare;
 			typedef Alloc 														allocator_type;
 			typedef size_t 														size_type;																						
@@ -46,7 +47,7 @@ namespace ft
 			explicit map(const key_compare &c = key_compare(), const Alloc &alloc = allocator_type()) : 
 				_comp(c), _alloc(alloc), _value_comp(c), _rbt(_value_comp, _alloc ) { }
 
-			map(const map &rhs) : _rbt(rhs._rbt), _alloc(rhs._alloc), _comp(rhs._comp) { }
+			map(const map &rhs) :_comp(rhs._comp) , _alloc(rhs._alloc),  _rbt(rhs._rbt) { }
 
 			map &operator=(const map &rhs) { _rbt = rhs._rbt; _alloc = rhs._alloc; _comp = rhs._comp; return(*this); }
 			
@@ -60,20 +61,36 @@ namespace ft
                     first++;
                 }
             };
-			void clear(){_rbt.clear();};
-			~map() { _rbt.clear();}
-			mapped_type operator[](const key_type &key)
+			void clear() {_rbt.clear();};
+			 ~map() { _rbt.clear();}
+			mapped_type_referece operator[](const key_type &key)
 			{
 				return (_rbt.insert(ft::make_pair(key, mapped_type())).first)->second;
 			}
-			void insert (const value_type& val)
+			pair<iterator,bool> insert (const value_type& val)
 			{
-			 	_rbt.insert(val);
+				return(_rbt.insert(val));
 				// std::cout << "inserted " << val.first << " " << val.second << std::endl;
 			};
-			
+
+			iterator insert (iterator position, const value_type& val) { 
+				(void)position;
+				return( _rbt.insert(val).first);
+			}
+
+			template< class InputIt >
+			void insert( InputIt first, InputIt last ) {
+				// _rbt.insert(first, last);
+				// loop through the range and insert each element
+				// insert each element into the tree
+
+				while (first != last) {
+					_rbt.insert(*first);
+					first++;
+				}
+			}
 					iterator begin() { return(iterator(_rbt.min(), _rbt.root())); }
-					const_iterator begin() const { return(const_iterator(_rbt.min, _rbt.root())); }
+					const_iterator begin() const { return(const_iterator(_rbt.min(), _rbt.root())); }
 					iterator end() { return(iterator(_rbt.max()->_Rchild, _rbt.root())); }
 					const_iterator end() const { return(const_iterator(_rbt.max()->_Rchild, _rbt.root())); }
 					reverse_iterator rbegin() { return reverse_iterator(end()); }
@@ -119,7 +136,7 @@ namespace ft
 
 					const_iterator lower_bound(const key_type &key) const
 					{
-						iterator found = find(key);
+						const_iterator found = find(key);
 						if (found != end())
 							return found;
 						return (_rbt.bound(ft::make_pair(key, mapped_type())));
@@ -174,6 +191,41 @@ namespace ft
 				return _rbt.getNode();
 			}
 	};
+
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
+{
+	return (!(lhs < rhs) && !(rhs < lhs));
+}
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator!= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+	return !(lhs == rhs);
+}
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator<  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+	return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+}
+
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator<= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs ) {
+	return !(lhs > rhs);
+}
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator>  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
+{
+	return rhs < lhs;
+}
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator>= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
+{
+	return !(lhs < rhs);
+}
 
 	template <class Key, class T, class Compare, class Alloc>
 	class map<Key,T,Compare,Alloc>::value_compare : public std::binary_function<value_type, value_type, bool>

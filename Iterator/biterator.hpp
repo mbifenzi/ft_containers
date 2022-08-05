@@ -18,7 +18,7 @@ namespace ft
 			typedef T&											reference;
 			typedef typename std::bidirectional_iterator_tag	iterator_category;
 			typedef typename Node::pointer								node_ptr;
-			typedef typename Node::const_pointer						const_node_ptr;
+			// typedef typename Node::const_pointer						const_node_ptr;
 		protected:
 			node_ptr	_node;
 			node_ptr	_root;
@@ -109,6 +109,10 @@ namespace ft
 
 
 			friend bool	operator!=(biterator const &lhs, biterator const &rhs)	{	return lhs._node != rhs._node;	}
+
+			operator	biterator<Node, const value_type>() const{
+				return biterator<Node, const value_type>(_node, _root);
+			}
 
 			virtual ~biterator(){};
 
