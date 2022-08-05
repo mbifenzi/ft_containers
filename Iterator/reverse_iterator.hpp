@@ -21,7 +21,10 @@ namespace ft
             // reverse_iterator(const reverse_iterator & rhs) : _it(rhs._it){}
             reverse_iterator(const reverse_iterator<iterator_type>& _it){ this->operator=(_it);};
 
-            iterator_type base() const { return _it; }
+            iterator_type base() const { 
+                iterator_type tmp = _it;
+                return (++tmp);
+            }
 
             template <class Iter>
             reverse_iterator &operator=(const reverse_iterator<Iter> &it) { _it = it.base(); return *this; }            
@@ -44,9 +47,10 @@ namespace ft
 				return (tmp);
 			}
             pointer operator->() { 
-                iterator_type tmp(_it);
-                --tmp;
-                return tmp.operator->(); 
+                // iterator_type tmp(_it);
+                // --tmp;
+                // return tmp.operator->(); 
+                return &(*(_it));
             }
             reference operator*() { return *(_it); }
             reference operator[](difference_type n) { return _it[-n -1]; }
