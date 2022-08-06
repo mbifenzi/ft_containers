@@ -38,16 +38,10 @@ namespace ft
 				return *(_node->_data);
 			}
 
-			pointer operator->() 
+			pointer operator->() const
 			{
-				return (_node->_data);
+				return &operator*();
 			}
-
-			const_pointer operator->() const
-			{
-				return (_node->_data);
-			}
-
 
 			biterator& operator++()
 			{

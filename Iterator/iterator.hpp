@@ -55,7 +55,7 @@ namespace ft
 			bool operator>(iterator_op const &it) { return _ptr > it._ptr; };
 			bool operator<=(iterator_op const &it) { return _ptr <= it._ptr; };
 			bool operator>=(iterator_op const &it) { return _ptr >= it._ptr; };
-			reference operator[](difference_type n) { return _ptr[n]; };
+			reference operator[](difference_type n) const { return _ptr[n]; };
 			reference operator*() const { return *_ptr; };
 			pointer operator&() const { return _ptr; };
 			 void add(T*& val, long nb) const

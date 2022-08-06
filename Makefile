@@ -9,7 +9,7 @@ all :	$(NAME)
 bonus : $(BONUS_NAME)
 
 $(NAME): $(SRC)
-		@c++  $(SRC) -o $(NAME) -fsanitize=address -g
+		@c++  $(SRC)  -o $(NAME) -fsanitize=address -g
 
 clean:
 	@rm -f $(OBJECT)

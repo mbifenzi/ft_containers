@@ -4,6 +4,10 @@
 #include <cstdlib>
 #include "../../Utilities/pair.hpp"
 #include "../../Iterator/biterator.hpp"
+#include "../Vector/Vector.hpp"
+#include "../../Iterator/iterator.hpp"
+#include "../../Iterator/reverse_iterator.hpp"
+
 // #include "../../Utilities/fancy_tree.hpp"
 
 #define BLACK 0
@@ -64,6 +68,8 @@ namespace ft
         typedef Compare                                     key_compare;
         typedef ft::biterator<Node<value_type>, value_type> iterator;
         typedef ft::biterator<Node<value_type>, const value_type> const_iterator;
+        typedef ft::reverse_iterator<iterator>             reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator>       const_reverse_iterator;
         
 
     protected:
@@ -74,18 +80,15 @@ namespace ft
         typename Allocator::template rebind<Node<T> >::other    _node_alloc;
         allocator_type                                          _value_alloc;
     public:
-        rbt(const key_compare &c = key_compare(), const allocator_type &alloc = allocator_type()): _comp(c), _alloc(alloc)
-        {
-            _root = NULL;
-            _size = 0;
-        }
+        // rbt() : _root(NULL), _size(0), _alloc(), _comp() { };
+
+        explicit rbt(const key_compare &c = key_compare(), const allocator_type &alloc = allocator_type()): _comp(c), _alloc(alloc), _root(NULL), _size(0), _node_alloc(), _value_alloc(alloc) { };
         rbt(const rbt& rhs)
         {
             *this = rhs;
         }
         rbt &operator=(const rbt &rhs)
         {
-            // std::cerr << "operator =" << std::endl;
             this->clear();
             _size = 0;
             this->clone(rhs);
@@ -94,7 +97,7 @@ namespace ft
         void clone(const rbt &rhs)
         {
             const_iterator it = iterator(rhs.min(), _root);
-                for(; it != iterator(rhs.max(), _root); it++)
+                for(; it != iterator(NULL, _root); it++)
                     insert_node(*it);
         }
         pointer new_node(const value_type& value)
@@ -463,7 +466,7 @@ namespace ft
                 return node;
             };
 
-            pointer precised_min(pointer node)
+            pointer precised_min(pointer node) const
             {
                 if (!node)
                     return NULL;
@@ -471,7 +474,7 @@ namespace ft
                     node = node->_Lchild;
                 return node;
             };
-            pointer precised_max(pointer node)
+            pointer precised_max(pointer node) const
             {
                 if (!node)
                     return NULL;
@@ -535,8 +538,10 @@ namespace ft
             
             void swap(rbt& other)
             {
-                std::swap(_root, other._root);
+                std::swap(_comp, other._comp);
+                std::swap(_root, other._root); 
                 std::swap(_size, other._size);
+
             };
 
             iterator find (const value_type& key){
@@ -584,12 +589,38 @@ namespace ft
                         node = node->_Rchild;
                     }
                 }
-                return (iterator(ret, _root));
+                return iterator(ret, _root);
             };
+
+            iterator bound(const value_type& key) 
+            {
+                pointer ret = NULL;
+                pointer node = _root;
+                while (node){
+                    if (_comp.operator()(key, *node->_data)){
+                        ret = node;
+                        node = node->_Lchild;
+                    }
+                    else{
+                        node = node->_Rchild;
+                    }
+                }
+                return iterator(ret, _root);
+            };
+
             void    set_compare_alloc(const Compare &comp, const Allocator &alloc){
                 _comp = comp;
                 _alloc = alloc;
             };
+
+            iterator				begin() { return iterator(precised_min(_root), _root); }
+		    const_iterator			begin() const { return const_iterator(precised_min(_root), _root); }
+		    iterator				end() { return iterator(NULL, _root); }
+		    const_iterator			end() const { return iterator(NULL, _root); }
+		    reverse_iterator		rbegin() { return reverse_iterator(end()); }
+		    const_reverse_iterator	rbegin() const { return const_reverse_iterator(end()); }
+		    reverse_iterator		rend() { return reverse_iterator(begin()); }
+		    const_reverse_iterator	rend() const { return const_reverse_iterator(begin()); }
             
     };
 }
