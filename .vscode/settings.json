@@ -79,6 +79,7 @@
         "*.tcc": "cpp",
         "numbers": "cpp",
         "csignal": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "filesystem": "cpp"
     }
 }

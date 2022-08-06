@@ -43,9 +43,11 @@ namespace ft
 				value_compare                           _value_comp;
 				rbt<value_type, value_compare, Alloc>   _rbt;
 			public:
-			// map() : _rbt() { }
 			explicit map(const key_compare &c = key_compare(), const Alloc &alloc = allocator_type()) : 
-				_comp(c), _alloc(alloc), _value_comp(c), _rbt(_value_comp, _alloc ) { }
+				_comp(c), _alloc(alloc), _value_comp(c), _rbt(_value_comp, _alloc )
+				{
+                	_rbt.set_compare_alloc(value_compare(c), alloc);
+				}
 
 			map(const map &rhs) :_comp(rhs._comp) , _alloc(rhs._alloc),  _rbt(rhs._rbt) { }
 
@@ -69,8 +71,8 @@ namespace ft
 			}
 			pair<iterator,bool> insert (const value_type& val)
 			{
-				return(_rbt.insert(val));
 				// std::cout << "inserted " << val.first << " " << val.second << std::endl;
+				return(_rbt.insert(val));
 			};
 
 			iterator insert (iterator position, const value_type& val) { 
@@ -104,20 +106,6 @@ namespace ft
 					value_compare value_comp() const { return(_value_comp); }
 					allocator_type get_allocator() const { return(_alloc); }
 					
-					// mapped_type &at(const key_type &key)
-					// {
-					// 	iterator it = find(key);
-					// 	if (it == end())
-					// 		throw std::out_of_range("map::at");
-					// 	return(it->second);
-					// }
-					// const mapped_type &at(const key_type &key) const
-					// {
-					// 	const_iterator it = find(key);
-					// 	if (it == end())
-					// 		throw std::out_of_range("map::at");
-					// 	return(it->second);
-					// }
 					iterator find (const key_type& k){
                 	return _rbt.find(ft::make_pair(k, mapped_type()));
             		};
