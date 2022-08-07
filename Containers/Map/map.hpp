@@ -44,12 +44,12 @@ namespace ft
 				rbt<value_type, value_compare, Alloc>   _rbt;
 			public:
 			explicit map(const key_compare &c = key_compare(), const Alloc &alloc = allocator_type()) : 
-				_comp(c), _alloc(alloc), _value_comp(c), _rbt(_value_comp, _alloc )
+				_comp(c), _alloc(alloc), _value_comp(c), _rbt()
 				{
                 	_rbt.set_compare_alloc(value_compare(c), alloc);
 				}
 
-			map(const map &rhs) :_comp(rhs._comp) , _alloc(rhs._alloc),  _rbt(rhs._rbt) { }
+			map(const map &rhs)  { *this = rhs; }
 
 			map &operator=(const map &rhs) { _rbt = rhs._rbt; return(*this); }
 			

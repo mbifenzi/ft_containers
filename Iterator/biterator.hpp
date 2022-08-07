@@ -104,7 +104,8 @@ namespace ft
 
 			friend bool	operator!=(biterator const &lhs, biterator const &rhs)	{	return lhs._node != rhs._node;	}
 
-			operator	biterator<Node, const value_type>() const{
+			operator	biterator<Node, const value_type>() const
+			{
 				return biterator<Node, const value_type>(_node, _root);
 			}
 

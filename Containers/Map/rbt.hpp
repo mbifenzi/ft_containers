@@ -137,7 +137,7 @@ namespace ft
                 pointer found = search(val);
                 if (found)
                     return ft::make_pair(iterator(found, _root), false);
-                // std::cerr << "insert: " << val.first << std::endl;
+
                 return ft::make_pair(iterator(insert_node(val), _root), true);
             }
 
@@ -544,7 +544,8 @@ namespace ft
 
             };
 
-            iterator find (const value_type& key){
+            iterator find (const value_type& key) 
+            {
                 if (!_root)
                     return iterator(NULL, _root);
                 pointer node = _root;

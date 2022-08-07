@@ -106,22 +106,25 @@ namespace ft{
             value_compare value_comp() const{return _comp;};
 
 			//Operations:
-            iterator find (const value_type& k) const{
+            iterator find (const value_type& k) {
                 return _rbt.find(k);
             };
 			size_type count (const value_type& k) const{
                 return (_rbt.find(k) == end()) ? 0 : 1;
             };
-			iterator lower_bound (const value_type& k) const{
+			iterator lower_bound (const value_type& k) 
+            {
                 iterator found = find(k);
                 if (found != end())
                     return found;
                 return (_rbt.bound(k));
             };
-			iterator upper_bound (const value_type& k) const{
+			iterator upper_bound (const value_type& k) const
+            {
                 return (_rbt.bound(k));
             };
-			pair<iterator,iterator> equal_range (const value_type& k) const{
+			pair<iterator,iterator> equal_range (const value_type& k) 
+            {
                 return ft::make_pair(lower_bound(k), upper_bound(k));
             };
 

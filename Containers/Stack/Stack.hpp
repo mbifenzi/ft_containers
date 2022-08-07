@@ -5,7 +5,7 @@
 
 namespace ft
 {
-template <class T, class Container = std::vector<T> >
+template <class T, class Container = ft::vector<T> >
 class stack
 {
     public:
@@ -14,6 +14,7 @@ class stack
         typedef typename container_type::size_type size_type;
         typedef typename container_type::reference reference;
         typedef typename container_type::const_reference const_reference;
+
         explicit stack(const container_type& container = container_type()) : c(container)
         {
         }
